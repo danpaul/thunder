@@ -1,0 +1,10 @@
+Todo:
+	error handling for db connection
+	
+	convert header row into js friendly names
+	
+	do type conversion
+	
+	implement testing
+	
+	check easement on spreadsheet to determine data type
