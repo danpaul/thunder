@@ -16,7 +16,8 @@ function typeConvert(conversionObject, key, value){
 			case "int":
 				console.log("int");
 				console.log(parseInt(value));
-				return parseInt(value);
+return parseInt(value.replace(',',''));
+		//		return parseInt(value);
 		}
 	}
 	return value;
@@ -30,13 +31,13 @@ var HEADER_CONVERSION_TYPES =
 	"lot": "int",
 	"residentialUnits": "int",
 	"commercialUnits": "int",
-	"toalUnits": "int",
-	"land": "int",
+	"totalUnits": "int",
+	"landSquareFeet": "int",
 	"squreFeet": "int",
 	"grossSquareFeet": "int",
 	"yearBuilt": "date",
-	"taxClass": "int",
-	"salePrice": "float",
+	"taxClassAtTimeOfSale": "int",
+	"salePrice": "int",
 	"saleDate": "date"
 };
 
