@@ -1,46 +1,42 @@
 //npm install to insall packages
 
+var THUNDER_DB_URI = "mongodb://localhost:27017/exampleDb";
+
+var thunder = {};
+
 var express = require('express');
-var textNilExpress = express();
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+var thunderExpress = express();
 
-var textNilPostSchema = ({title: String, text: String});
-var textNilPost = mongoose.model('Post', textNilPostSchema);
+thunderExpress.use(express.bodyParser());
+thunderExpress.locals.title = 'textNIL'
+thunderExpress.set('views', __dirname + '/views')
+thunderExpress.set('view engine', 'jade')
+thunderExpress.use(express.static(__dirname + '/public'))
 
-var tp1 = new textNilPost({ text: 'congue lacinia dui, a porttitor lectus' });
+// Retrieve
+var MongoClient = require('mongodb').MongoClient;
 
-tp1.save(function (err) {
-  if (err) // ...
-  console.log('meow');
+// Connect to the db
+MongoClient.connect(THUNDER_DB_URI, function(err, db) {
+  if(!err) {
+    console.log("We are connected");
+  }
 });
 
-textNilExpress.use(express.bodyParser());
+// Retrieve
+var MongoClient = require('mongodb').MongoClient;
 
-textNilExpress.locals.title = 'textNIL'
-textNilExpress.set('views', __dirname + '/views')
-textNilExpress.set('view engine', 'jade')
-textNilExpress.use(express.static(__dirname + '/public'))
+// Connect to the db
+MongoClient.connect(THUNDER_DB_URI, function(err, db) {
+  if(err) { return console.dir(err); }
 
-// textNilExpress.post('/api/post', function (req, res) {
-	// var newPost = new textNilPost(req.body);
-	// newPost.save(function(error) {
-		// if(error){
-			// console.log("error saving post");
-		// }else{
-			// console.log("success");
-		// }
-	// })
-	// //console.log(req.body);
-	// res.send(200);
-// })
+  db.collection('test', function(err, collection) {});
 
-textNilExpress.get('*', function (req, res) {
+});
+
+
+thunderExpress.get('*', function (req, res) {
   res.send('test');
 })
 
-// textNilExpress.get('/index*', function (req, res) {
-  // res.render('index');
-// })
-
-textNilExpress.listen(3000);
+thunderExpress.listen(3000);
