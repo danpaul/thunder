@@ -1,8 +1,11 @@
 //npm install to insall packages
-
 var THUNDER_DB_URI = "mongodb://localhost:27017/exampleDb";
 
 var thunder = {};
+
+////////////////////////////////////////////////////////////////////////////////////////
+var csv = require('./csv');
+csv.testFunction();
 
 var express = require('express');
 var thunderExpress = express();
@@ -34,9 +37,12 @@ MongoClient.connect(THUNDER_DB_URI, function(err, db) {
 
 });
 
-
 thunderExpress.get('*', function (req, res) {
   res.send('test');
 })
 
-thunderExpress.listen(3000);
+//console.log(thunder.csvImport.testFunction());
+
+//thunder.csvImport.csvParse();
+
+//thunderExpress.listen(3000);
