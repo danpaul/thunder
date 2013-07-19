@@ -1,27 +1,14 @@
-//npm install to insall packages
+var MongoClient = require('mongodb').MongoClient;
+var csv = require('csv');
 
-//from: http://stackoverflow.com/questions/10425287/convert-string-to-camelcase-with-regular-expression
-function camelCase(input) { 
-     return input
-		.toLowerCase()
-		.replace(/^\s+|\s+$/g,'')
-		.replace(/\s(.)/g, function(match, group1) {
-			return group1.toUpperCase();
-		});
-}
+var CSV_FILE = "./short_summary.csv";
 
-function typeConvert(conversionObject, key, value){
-	if(conversionObject.hasOwnProperty(key)){
-		switch(conversionObject[key]){
-			case "int":
-				console.log("int");
-				console.log(parseInt(value));
-return parseInt(value.replace(',',''));
-		//		return parseInt(value);
-		}
-	}
-	return value;
-}
+var THUNDER_DB_URI = "mongodb://localhost:27017/exampleDb";
+var COLLECTION_NAME = "testCollection";
+
+var header;
+
+
 
 var HEADER_CONVERSION_TYPES = 
 {
@@ -41,15 +28,29 @@ var HEADER_CONVERSION_TYPES =
 	"saleDate": "date"
 };
 
-var CSV_FILE = "./short_summary.csv";
+//from: http://stackoverflow.com/questions/10425287/convert-string-to-camelcase-with-regular-expression
+function camelCase(input) { 
+     return input
+		.toLowerCase()
+		.replace(/^\s+|\s+$/g,'')
+		.replace(/\s(.)/g, function(match, group1) {
+			return group1.toUpperCase();
+		});
+}
 
-var THUNDER_DB_URI = "mongodb://localhost:27017/exampleDb";
-var COLLECTION_NAME = "testCollection";
-
-var MongoClient = require('mongodb').MongoClient;
-var csv = require('csv');
-
-var header;
+function typeConvert(conversionObject, key, value){
+	if(conversionObject.hasOwnProperty(key)){
+		switch(conversionObject[key]){
+			case "int":
+//console.log("int");
+//console.log(parseInt(value));
+				return parseInt(value.replace(',',''));
+			case "date":
+				return new Date(value.replace('/', '.'));
+		}
+	}
+	return value;
+}
 
 // Connect to the db
 MongoClient.connect(THUNDER_DB_URI, function(err, db) {
@@ -64,17 +65,14 @@ MongoClient.connect(THUNDER_DB_URI, function(err, db) {
 			for(var i = 0; i < arrayLength; i++){
 				header[i] = camelCase(row[i]);
 			}
-//console.log(header);
 		}else{
 			var newRecord = {};
 			for(var i = 0; i < arrayLength; i++){
 				newRecord[header[i]] = typeConvert(HEADER_CONVERSION_TYPES, header[i], row[i]);
 				//newRecord[header[i]] = row[i];
 			}
-			console.log(newRecord);
+//console.log(newRecord);
 		}
 	})
 	.on('end', function() {console.log("done")});
 });
-
-//console.log(camelCase("  Foo bAr"));

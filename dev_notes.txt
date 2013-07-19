@@ -8,3 +8,19 @@ Todo:
 	implement testing
 	
 	check easement on spreadsheet to determine data type
+	
+	make csv into a module in lib directory
+	
+	separate mongo models into module
+	
+	
+	
+	
+Mongoose
+
+	putting schemas in a module: http://stackoverflow.com/questions/12292544/how-to-reference-mongoose-db-from-external-models
+	
+
+project structure
+
+	example: https://github.com/madhums/node-express-mongoose-demo
