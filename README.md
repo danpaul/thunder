@@ -1,1 +1,1 @@
-in early development stages
+in development
