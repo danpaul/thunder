@@ -13,14 +13,30 @@ Todo:
 	
 	separate mongo models into module
 	
+	X update mongo model with all spreadsheet header row
 	
+	handle connection errors
+	
+	handle record save errors
+	
+	Xnormalize string data going into database
+		trim and lowercase
+		
+	Xyearbuilt = invalid date
+	
+	determine if record is duplicate
+	
+	write "find match" function -- use sales date and address
+	
+	do we need to implement synchronous saving to confirm duplicate
+		entries are not saved
+		
 	
 	
 Mongoose
 
 	putting schemas in a module: http://stackoverflow.com/questions/12292544/how-to-reference-mongoose-db-from-external-models
 	
-
 project structure
 
 	example: https://github.com/madhums/node-express-mongoose-demo

@@ -1,14 +1,17 @@
-var MongoClient = require('mongodb').MongoClient;
+////////////////////////////////////////////////////////////////////////////////
+// Require
+////////////////////////////////////////////////////////////////////////////////
+
 var csv = require('csv');
+var mongoose = require('mongoose');
+
+////////////////////////////////////////////////////////////////////////////////
+// Globals
+////////////////////////////////////////////////////////////////////////////////
 
 var CSV_FILE = "./short_summary.csv";
-
 var THUNDER_DB_URI = "mongodb://localhost:27017/exampleDb";
 var COLLECTION_NAME = "testCollection";
-
-var header;
-
-
 
 var HEADER_CONVERSION_TYPES = 
 {
@@ -22,57 +25,159 @@ var HEADER_CONVERSION_TYPES =
 	"landSquareFeet": "int",
 	"squreFeet": "int",
 	"grossSquareFeet": "int",
-	"yearBuilt": "date",
-	"taxClassAtTimeOfSale": "int",
 	"salePrice": "int",
+	"yearBuilt": "int",
 	"saleDate": "date"
 };
 
-//from: http://stackoverflow.com/questions/10425287/convert-string-to-camelcase-with-regular-expression
-function camelCase(input) { 
+////////////////////////////////////////////////////////////////////////////////
+// Mongoose
+////////////////////////////////////////////////////////////////////////////////
+
+mongoose.connect('mongodb://localhost/test');
+//mongoose.connection.db.dropCollection('salesRecord');
+
+var salesRecordSchema = mongoose.Schema
+({
+//String
+	neighborhood: String,
+	buildingClassCategory: String,
+	easement: String,
+	buildingClassAtPresent: String,
+	address: String,
+	apartmentNumber: String,
+	zipCode: String,
+	taxClassAtTimeOfSale: String,
+	buildingClassAtTimeOfSale: String,
+//Number
+	borough: Number,
+	taxClassAtPresent: Number,
+	block: Number,
+	lot: Number,
+	residentialUnits: Number,
+	commercialUnits: Number,
+	totalUnits: Number,
+	landSquareFeet: Number,
+	squreFeet: Number,
+	grossSquareFeet: Number,
+	salePrice: Number,
+	yearBuilt: Number,
+//Date
+	saleDate: Date
+});
+
+var salesRecordModel = mongoose.model('salesRecord', salesRecordSchema);
+
+var saveFunction = function(salesRecord)
+{
+	var salesRecord = new salesRecordModel(salesRecord);
+	if(!(salesRecordIsMatch(salesRecord)))
+	{
+		;
+	}
+	salesRecord.save(function (error, record)
+	{
+		if(error)
+		{
+			console.log("unable to save");
+		}else{
+//console.log("success");
+		}
+	});
+}
+
+function salesRecordIsMatch(salesRecord)
+{
+	query =
+	{
+		'address': salesRecord.address
+		//'apartmentNumber': salesRecord.apartmentNumber
+		//'saleDate': salesRecord.saleDate
+	};
+console.log(query);
+	if( salesRecordModel.findOne(query) === null)
+	{
+console.log("match");
+		return true;
+	}else{
+console.log("no match");
+		return false;
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Driver
+////////////////////////////////////////////////////////////////////////////////
+
+function csvParse(saveFunction)
+{
+	var arrayLength = 0,
+		header,
+		newRecord = {};
+
+	csv().from(CSV_FILE)
+		.transform(function(row, index)
+		{
+			if(index === 0)
+			{
+				arrayLength = row.length;
+				header = new Array(arrayLength);
+				for(var i = 0; i < arrayLength; i++)
+				{	
+					header[i] = camelCase(row[i]);
+				}
+			}else{
+				var newRecord = {};
+				for(var i = 0; i < arrayLength; i++)
+				{
+					newRecord[header[i]] = typeConvert(HEADER_CONVERSION_TYPES, header[i], row[i]);
+				}
+				saveFunction(newRecord);
+			}
+//console.log(newRecord);
+		})
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Helper functions
+////////////////////////////////////////////////////////////////////////////////
+
+function camelCase(input)
+{ 
      return input
 		.toLowerCase()
 		.replace(/^\s+|\s+$/g,'')
-		.replace(/\s(.)/g, function(match, group1) {
+		.replace(/\s(.)/g, function(match, group1)
+		{
 			return group1.toUpperCase();
 		});
 }
 
 function typeConvert(conversionObject, key, value){
-	if(conversionObject.hasOwnProperty(key)){
-		switch(conversionObject[key]){
+	if(conversionObject.hasOwnProperty(key))
+	{
+		switch(conversionObject[key])
+		{
 			case "int":
-//console.log("int");
-//console.log(parseInt(value));
 				return parseInt(value.replace(',',''));
 			case "date":
+//console.log(value);
 				return new Date(value.replace('/', '.'));
+			default: //should not reach herestring
+				console.log("error: unknown type in typeConvert()");
 		}
+	}else{ //type is string
+		return value.trim().toLowerCase();
 	}
-	return value;
 }
 
-// Connect to the db
-MongoClient.connect(THUNDER_DB_URI, function(err, db) {
-  if(err) { return console.log("error connecting to db"); }
-  var collection = db.collection(COLLECTION_NAME, function(err, collection) {});
-  var arrayLength = 0;
-  csv().from(CSV_FILE)
-	.transform(function(row, index){
-	if(index === 0){
-			arrayLength = row.length;
-			header = new Array(arrayLength);
-			for(var i = 0; i < arrayLength; i++){
-				header[i] = camelCase(row[i]);
-			}
-		}else{
-			var newRecord = {};
-			for(var i = 0; i < arrayLength; i++){
-				newRecord[header[i]] = typeConvert(HEADER_CONVERSION_TYPES, header[i], row[i]);
-				//newRecord[header[i]] = row[i];
-			}
-//console.log(newRecord);
-		}
-	})
-	.on('end', function() {console.log("done")});
+csvParse(saveFunction);
+
+salesRecordModel.findOne( {'yearBuilt': 1962}, function(error, document)
+{
+	//console.log(document);
 });
+
+// var foo = " BAR ";
+// console.log(foo);
+// console.log(foo.trim().toLowerCase());
