@@ -68,12 +68,15 @@ var salesRecordSchema = mongoose.Schema
 
 var salesRecordModel = mongoose.model('salesRecord', salesRecordSchema);
 
-var saveFunction = function(salesRecord)
+var saveRecord = function(salesRecord)
 {
 	var salesRecord = new salesRecordModel(salesRecord);
-	if(!(salesRecordIsMatch(salesRecord)))
+console.log(salesRecordIsMatch(salesRecord));
+	if((salesRecordIsMatch(salesRecord)))
 	{
-		;
+console.log("match");
+	}else{
+console.log("no match");
 	}
 	salesRecord.save(function (error, record)
 	{
@@ -90,19 +93,23 @@ function salesRecordIsMatch(salesRecord)
 {
 	query =
 	{
-		'address': salesRecord.address
-		//'apartmentNumber': salesRecord.apartmentNumber
-		//'saleDate': salesRecord.saleDate
+		'address': salesRecord.address,
+		'apartmentNumber': salesRecord.apartmentNumber,
+		'saleDate': salesRecord.saleDate
 	};
-console.log(query);
-	if( salesRecordModel.findOne(query) === null)
+	
+	salesRecordModel.findOne(query, function(error, doc)
 	{
-console.log("match");
-		return true;
-	}else{
-console.log("no match");
-		return false;
-	}
+//console.log(doc);
+if((doc)){console.log("foo");}
+		if(!(doc))
+		{
+			return true;
+		}else{
+			return false;
+		}
+	});
+	return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
