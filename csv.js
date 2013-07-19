@@ -68,48 +68,31 @@ var salesRecordSchema = mongoose.Schema
 
 var salesRecordModel = mongoose.model('salesRecord', salesRecordSchema);
 
-var saveRecord = function(salesRecord)
+function saveFunction(salesRecordIn)
 {
-	var salesRecord = new salesRecordModel(salesRecord);
-console.log(salesRecordIsMatch(salesRecord));
-	if((salesRecordIsMatch(salesRecord)))
-	{
-console.log("match");
-	}else{
-console.log("no match");
-	}
-	salesRecord.save(function (error, record)
-	{
-		if(error)
-		{
-			console.log("unable to save");
-		}else{
-//console.log("success");
-		}
-	});
-}
-
-function salesRecordIsMatch(salesRecord)
-{
+	var salesRecord = new salesRecordModel(salesRecordIn);
 	query =
 	{
 		'address': salesRecord.address,
 		'apartmentNumber': salesRecord.apartmentNumber,
 		'saleDate': salesRecord.saleDate
 	};
-	
+
 	salesRecordModel.findOne(query, function(error, doc)
-	{
-//console.log(doc);
-if((doc)){console.log("foo");}
-		if(!(doc))
+	{		
+		if(!(doc)) //no match(new record)
 		{
-			return true;
-		}else{
-			return false;
+			salesRecord.save(function (error, record)
+			{
+				if(error)
+				{
+					console.log("unable to save");
+				}else{
+//console.log("success");
+				}
+			});
 		}
 	});
-	return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -182,9 +165,5 @@ csvParse(saveFunction);
 
 salesRecordModel.findOne( {'yearBuilt': 1962}, function(error, document)
 {
-	//console.log(document);
+	console.log(document);
 });
-
-// var foo = " BAR ";
-// console.log(foo);
-// console.log(foo.trim().toLowerCase());

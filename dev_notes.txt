@@ -19,19 +19,19 @@ Todo:
 	
 	handle record save errors
 	
-	Xnormalize string data going into database
+	X normalize string data going into database
 		trim and lowercase
 		
-	Xyearbuilt = invalid date
+	X yearbuilt = invalid date
 	
-	determine if record is duplicate
+	X determine if record is duplicate
 	
 	write "find match" function -- use sales date and address
 	
 	do we need to implement synchronous saving to confirm duplicate
 		entries are not saved
 		
-	
+	express vulnerabilities
 	
 Mongoose
 
