@@ -1,0 +1,41 @@
+Todo:
+
+	Error handling:
+
+		validation: validate all aspects of cvs import(headers, cells, etc.)
+
+		error handling for db connection
+
+		handle connection errors
+	
+		handle record save errors
+	
+	Testing:
+
+		implement testing
+
+	Refractoring:
+
+		make csv into a module in lib directory
+		
+		separate mongo models into module	
+	
+	Other:
+
+		check easement in csv file to determine data type
+
+DONE:
+
+write "find match" function -- use sales date and address
+
+determine if record is duplicate before saving
+
+error: yearbuilt = invalid date
+
+normalize string data going into database
+
+type conversion for csv data
+
+convert header row into js friendly names
+
+update mongo model with all spreadsheet header row
