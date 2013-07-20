@@ -24,6 +24,8 @@ Todo:
 
 		check easement in csv file to determine data type
 
+		create absolute path to config file in csv.js
+
 DONE:
 
 write "find match" function -- use sales date and address
