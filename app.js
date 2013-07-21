@@ -1,4 +1,4 @@
-var thunder = {};
+var config = require('./config');
 
 //----------------------------------------------------------------------
 // Require
@@ -15,3 +15,8 @@ app.use(express.bodyParser());
 app.get('*', function (req, res) {
   res.send('test');
 })
+
+//----------------------------------------------------------------------
+
+var controller = require(config.controllersDirectory).salesRecords;
+controller.upsertCollection();

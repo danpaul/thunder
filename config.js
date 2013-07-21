@@ -2,11 +2,15 @@ var config = {};
 
 config.dbURI = 'mongodb://localhost:27017/thunder';
 
+config.modelsDirectory = __dirname + '/models';
+config.viewsDirectory = __dirname + '/views';
+config.controllersDirectory = __dirname + '/controllers';
+
 //------------------------------------------------------------------------------
 // csv.js specific
 //------------------------------------------------------------------------------
 
-config.csvFile = __dirname + '/data/short_summary.csv';
+config.salesRecordsFile = __dirname + '/data/short_summary.csv';
 
 //this will also be the collection name for the base records
 config.salseRecordModelName = 'salesRecord';
@@ -62,8 +66,8 @@ config.matchQueryBuilder = function(mongooseModel)
 	return
 	({
 		'address': mongooseModel.address,
-    	'apartmentNumber': mongooseModel.apartmentNumber,
-    	'saleDate': mongooseModel.saleDate
+    'apartmentNumber': mongooseModel.apartmentNumber,
+    'saleDate': mongooseModel.saleDate
     });
 }
 

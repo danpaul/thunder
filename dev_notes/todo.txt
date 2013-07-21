@@ -2,8 +2,6 @@ Todo:
 
 	Error handling:
 
-		validation: validate all aspects of cvs import(headers, cells, etc.)
-
 		error handling for db connection
 
 		handle connection errors
@@ -19,6 +17,12 @@ Todo:
 		make csv into a module in lib directory
 		
 		separate mongo models into module	
+
+	Validation:
+
+		validate all aspects of cvs import(headers, cells, etc.)
+
+
 	
 	Other:
 

@@ -1,7 +1,9 @@
+Mongoose
 
+	seen note related to indexing in mongo: http://mongoosejs.com/docs/guide.html
+
+	http://stackoverflow.com/questions/14342708/mongoose-indexing-in-production-code
 
 do further research on security vulnerabilities including key modules(Express)
 
 do further research regarding server configuration, connection pooling
-
-do we need 
