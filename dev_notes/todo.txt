@@ -26,6 +26,8 @@ Todo:
 	
 	Other:
 
+		move salesRecords controller parseFile function to model
+
 		check easement in csv file to determine data type
 
 		create absolute path to config file in csv.js
