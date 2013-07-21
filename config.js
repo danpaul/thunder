@@ -55,7 +55,7 @@ config.salesRecordSchemaObject =
   yearBuilt: Number,
 //Date
   saleDate: Date
-}
+};
 
 config.matchQueryBuilder = function(mongooseModel)
 {
@@ -66,7 +66,5 @@ config.matchQueryBuilder = function(mongooseModel)
     	'saleDate': mongooseModel.saleDate
     });
 }
-
-
 
 module.exports = config;

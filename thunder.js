@@ -9,11 +9,9 @@ var mongoose = require('mongoose');
 
 //----------------------------------------------------------------------
 
-thunder.config = require('./config');
+var app = express();
+app.use(express.bodyParser());
 
-thunder.express = express();
-thunder.express.use(express.bodyParser());
-
-thunder.express.get('*', function (req, res) {
+app.get('*', function (req, res) {
   res.send('test');
 })

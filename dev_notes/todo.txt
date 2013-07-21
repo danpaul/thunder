@@ -26,6 +26,8 @@ Todo:
 
 		create absolute path to config file in csv.js
 
+		update package file
+
 DONE:
 
 write "find match" function -- use sales date and address
