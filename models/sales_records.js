@@ -95,10 +95,10 @@ function matchQueryBuilder(mongooseModel)
 var salesRecordSchema = mongoose.Schema(salesRecordSchemaObject);
 var salesRecordModel = mongoose.model(salseRecordModelName, salesRecordSchema);
 
-upsertRecord = function upsertRecord(salesRecordObject)
+function upsertRecord(salesRecordObject)
 {
   var salesRecord = new salesRecordModel(salesRecordObject);
-  query = config.matchQueryBuilder(salesRecord);
+  query = matchQueryBuilder(salesRecord);
 
   salesRecordModel.findOne(query, function(error, doc)
   {   
