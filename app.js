@@ -17,6 +17,14 @@ app.get('*', function (req, res) {
 })
 
 //----------------------------------------------------------------------
+// Testing
+//----------------------------------------------------------------------
 
 var controller = require(config.controllersDirectory).salesRecords;
 controller.upsertCollection();
+
+var salesRecordModel = require(config.modelsDirectory + '/sales_records').createModel();
+
+salesRecordModel.findOne(function(err, doc) {
+	console.log(doc);
+});

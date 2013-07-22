@@ -1,5 +1,23 @@
 Todo:
 
+create update and refresh methods in sales_records model in build collection functino
+	also refresh method
+
+//if we are resetting the collection, should go through and update/replace and 
+// save a "last updated field" on completion, iterate the collection deleting any 
+// collection before the update, this should be in controller
+
+confirm things are generating properly with new implementation
+
+update export methods in controller and model
+
+generate summary records from db
+	
+	include quarterly median sales prices, average sales price, median and average sales volume
+
+
+
+
 	Error handling:
 
 		error handling for db connection

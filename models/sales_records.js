@@ -5,6 +5,8 @@
 var config = require('../config');
 
 var mongoose = require('mongoose');
+var csv = require('csv');
+
 var db = config.dbURI;
 mongoose.connect(config.dbURI);
 
@@ -71,7 +73,7 @@ var headerConversionTypes =
 //------------------------------------------------------------------------------
 // match query builder
 //  this is the query that will be used to determine if a given new record
-//  matches an existing record (included here because it is schema depenedent)
+//  matches an existing record (it is schema depenedent)
 //------------------------------------------------------------------------------
 
 function matchQueryBuilder(mongooseModel)
@@ -85,15 +87,50 @@ function matchQueryBuilder(mongooseModel)
 }
 
 //------------------------------------------------------------------------------
-// save record
+// build collection
 //------------------------------------------------------------------------------
-
-//if we are resetting the collection, should go through and update/replace and 
-// save a "last updated field" on completion, iterate the collection deleting any 
-// collection before the update, this should be in controller
 
 var salesRecordSchema = mongoose.Schema(salesRecordSchemaObject);
 var salesRecordModel = mongoose.model(salseRecordModelName, salesRecordSchema);
+
+//saveMethodFlag can be: upsert, update, refresh
+var buildCollection = exports.buildCollection = function(saveMethodFlag)
+{
+  var arrayLength = 0,
+    header,
+    newRecord = {},
+    now = Date.now;
+
+  csv().from(config.salesRecordsFile)
+    .transform(function(row, index)
+    {
+      if(index === 0)
+      {
+        arrayLength = row.length;
+        header = buildHeader(row);
+      }else{
+        newRecord = buildRecord(header, row);
+        switch(saveMethodFlag)
+        {
+          case 'update':
+            break;
+          case 'upsert':
+            upsertRecord(newRecord);
+            break;
+          case 'refresh':
+            break;
+        }
+      }
+      if(saveMethodFlag === 'refresh'){
+//trigger loop to delete all records and pass callback to handle error
+      }
+    })
+}
+
+var create = exports.createModel = function() 
+{ 
+  return(mongoose.model(salseRecordModelName, salesRecordSchema));
+}
 
 function upsertRecord(salesRecordObject)
 {
@@ -129,6 +166,7 @@ function buildHeader(headerRow)
 
 function buildRecord(header, row)
 {
+//console.log(header);
   var newRecord = {};
   for(var i = 0; i < header.length; i++)
   {
@@ -136,6 +174,7 @@ function buildRecord(header, row)
                                        header[i], 
                                        row[i]);
   }
+  return newRecord;
 }
 
 function camelCase(input)
@@ -143,10 +182,7 @@ function camelCase(input)
    return input
     .toLowerCase()
     .replace(/^\s+|\s+$/g,'')
-    .replace(/\s(.)/g, function(match, group1)
-    {
-      return group1.toUpperCase();
-    });
+    .replace(/\s(.)/g, function(match, g){ return g.toUpperCase(); });
 }
 
 function typeConvert(conversionObject, key, value){
@@ -165,11 +201,3 @@ function typeConvert(conversionObject, key, value){
     return value.trim().toLowerCase();
   }
 }
-
-//------------------------------------------------------------------------------
-// exports
-//------------------------------------------------------------------------------
-
-exports.upsertRecord = upsertRecord;
-exports.buildHeader = buildHeader;
-exports.buildRecord = buildRecord;
