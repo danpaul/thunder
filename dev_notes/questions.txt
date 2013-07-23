@@ -1,3 +1,5 @@
+how to create an index in mongo for a field that could be queried like so
+
 should we update record if a duplicate is found? this shouldn't happen?
 
 should the node app sit behind a proxy for security, hanlding core functions and delivering static content?

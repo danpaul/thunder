@@ -1,11 +1,17 @@
 Todo:
 
+update package file for semantic versioning
+
+check if file parsing function is blocking
+
 create update and refresh methods in sales_records model in build collection functino
 	also refresh method
 
 //if we are resetting the collection, should go through and update/replace and 
 // save a "last updated field" on completion, iterate the collection deleting any 
 // collection before the update, this should be in controller
+
+should add fields to base records for fields we will want to query in other models
 
 confirm things are generating properly with new implementation
 

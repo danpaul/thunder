@@ -20,11 +20,35 @@ app.get('*', function (req, res) {
 // Testing
 //----------------------------------------------------------------------
 
-var controller = require(config.controllersDirectory).salesRecords;
-controller.upsertCollection();
+var salesRecordModel = require(config.modelsDirectory + '/sales_records');
 
-var salesRecordModel = require(config.modelsDirectory + '/sales_records').createModel();
+salesRecordModel.getEarliestRecord(function(err, record)
+  {
+    if(err)
+    {
+      console.log(err);
+    }else{
+      console.log(record);
+    }
+  });
 
-salesRecordModel.findOne(function(err, doc) {
-	console.log(doc);
-});
+
+// salesRecordModel.dateRangeEach(new Date(1900, 1, 1), Date.now(),
+//   function(err, record)
+//   {
+//     if(err)
+//     {
+//       console.log(err);
+//     }else{
+//       console.log(record);
+//     }
+//   });
+
+// var controller = require(config.controllersDirectory).salesRecords;
+// controller.upsertCollection();
+
+// var salesRecordModel = require(config.modelsDirectory + '/sales_records').createModel();
+
+// salesRecordModel.findOne(function(err, doc) {
+// 	console.log(doc);
+// });

@@ -9,17 +9,17 @@ var model = require(config.modelsDirectory).salesRecords;
 // build/update db
 //------------------------------------------------------------------------------
 
-var updateCollection = exports.updateCollection = function ()
+exports.updateCollection = function ()
 {
   model.buildCollection('update');
 }
 
-var upsertCollection = exports.upsertCollection = function()
+exports.upsertCollection = function()
 { 
   model.buildCollection('upsert'); 
 }
 
-var refreshCollection = exports.refreshCollection = function()
+exports.refreshCollection = function()
 { 
   model.buildCollection('refresh');
 }

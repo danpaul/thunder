@@ -4,22 +4,22 @@
 
 var config = require('../config');
 
-var mongoose = require('mongoose');
 var csv = require('csv');
+var mongoose = require('mongoose');
 
 var db = config.dbURI;
 mongoose.connect(config.dbURI);
 
-//collection will be this name pluralized
-var salseRecordModelName = 'salesRecord';
-
+var salseRecordModelName = config.salseRecordModelName;
 
 //------------------------------------------------------------------------------
 // schema
 //------------------------------------------------------------------------------
 
-var salesRecordSchemaObject =
-{
+
+var salesRecordSchema = mongoose.Schema
+({
+//From imported data file:
 //String
   neighborhood: String,
   buildingClassCategory: String,
@@ -44,10 +44,10 @@ var salesRecordSchemaObject =
   salePrice: Number,
   yearBuilt: Number,
 //Date
-  saleDate: Date,
-//Note in data file
-  lastUpdate: {type: Date, default: Date.now}
-};
+  saleDate: {type: Date, index: true}
+//Not from imported data file
+  //lastUpdate: {type: Date, default: Date.now()}
+});
 
 //------------------------------------------------------------------------------
 // schema conversion
@@ -70,6 +70,9 @@ var headerConversionTypes =
   saleDate: "date"
 };
 
+//var salesRecordSchema = mongoose.Schema(salesRecordSchemaObject);
+var salesRecordModel = mongoose.model(salseRecordModelName, salesRecordSchema);
+
 //------------------------------------------------------------------------------
 // match query builder
 //  this is the query that will be used to determine if a given new record
@@ -90,11 +93,8 @@ function matchQueryBuilder(mongooseModel)
 // build collection
 //------------------------------------------------------------------------------
 
-var salesRecordSchema = mongoose.Schema(salesRecordSchemaObject);
-var salesRecordModel = mongoose.model(salseRecordModelName, salesRecordSchema);
-
 //saveMethodFlag can be: upsert, update, refresh
-var buildCollection = exports.buildCollection = function(saveMethodFlag)
+exports.buildCollection = function(saveMethodFlag)
 {
   var arrayLength = 0,
     header,
@@ -151,6 +151,32 @@ function upsertRecord(salesRecordObject)
     }
   });
 }
+
+//------------------------------------------------------------------------------
+// getters and setters
+//------------------------------------------------------------------------------
+
+exports.dateRangeEach = function(startDate, endDate, callback)
+{
+  salesRecordModel.find({ saleDate: {$gte: startDate, $lte: endDate} }, callback);
+}
+
+exports.getEarliestRecord = function(callback)
+{
+  salesRecordModel.find({}, 'saleDate')  
+                  .sort({saleDate: 1})
+                  .limit(1)
+                  .exec(callback);
+}
+
+exports.getLatestRecord = function(callback)
+{
+  salesRecordModel.find()  
+                  .sort({saleDate: -1})
+                  .limit(1)
+                  .exec(callback);
+}
+
 
 //------------------------------------------------------------------------------
 // helpers
