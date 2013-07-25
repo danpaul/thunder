@@ -1,5 +1,7 @@
 Todo:
 
+set global requires, is this possible?
+
 remember JS months are 0 based but days of the month are not
 
 change tax class category (2 related fields) to string

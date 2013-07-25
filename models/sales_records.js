@@ -154,26 +154,18 @@ function upsertRecord(salesRecordObject)
 // getters and setters
 //------------------------------------------------------------------------------
 
-exports.dateRangeEachDo = function(startDate, endDate)//, callback)
+exports.dateRangeEachDo = function(startDate, endDate, callback)
 {
-  //salesRecordModel.find({ saleDate: {$gte: startDate, $lte: endDate} }, callback);
- 
- console.log(startDate)
- console.log(endDate);
- var s = new Date(2004, 0, 1);
- var e = new Date(2004, 1, 1);
- console.log(s);
- console.log(e);
-
-
- 
-salesRecordModel.find({ saleDate: {$gte: startDate.getTime(), $lte: endDate.getTime()} },
-function(err, record){
-	console.log(record);
-	}
-);
-  
-  }
+	salesRecordModel
+		.find({ saleDate: {$gte: startDate.getTime(), $lte: endDate.getTime()}})
+		.exec(callback);
+		// function(err, record)
+		// {
+			// if(err){
+			// console.log(error);}
+			// else{callback(record);}
+		// });
+}
 
 exports.getEarliestRecord = function(callback)
 {
