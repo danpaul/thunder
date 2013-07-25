@@ -1,5 +1,15 @@
 Todo:
 
+import larger data set
+
+implement monthly summary report
+
+implement quarterly summary
+
+validate imports/fields i.e. neighborhood, header, etc.
+
+develop consistent data file naming/format
+
 update package file for semantic versioning
 
 check if file parsing function is blocking
