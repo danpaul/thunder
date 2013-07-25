@@ -1,5 +1,7 @@
 Todo:
 
+change tax class category (2 related fields) to string
+
 import larger data set
 
 implement monthly summary report

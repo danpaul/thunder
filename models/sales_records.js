@@ -8,7 +8,6 @@ var csv = require('csv');
 var mongoose = require('mongoose');
 
 var db = config.dbURI;
-mongoose.connect(config.dbURI);
 
 var salseRecordModelName = config.salseRecordModelName;
 
@@ -27,12 +26,12 @@ var salesRecordSchema = mongoose.Schema
   buildingClassAtPresent: String,
   address: String,
   apartmentNumber: String,
-  zipCode: String,
+  zipCode: {type: String, index: true},
   taxClassAtTimeOfSale: String,
+  taxClassAtPresent: String,
   buildingClassAtTimeOfSale: String,
 //Number
-  borough: Number,
-  taxClassAtPresent: Number,
+  borough: {type: Number, index: true},
   block: Number,
   lot: Number,
   residentialUnits: Number,
@@ -56,7 +55,6 @@ var salesRecordSchema = mongoose.Schema
 var headerConversionTypes = 
 {
   borough: "int",
-  taxClassAtPresent: "int",
   block: "int",
   lot: "int",
   residentialUnits: "int",
@@ -145,7 +143,7 @@ function upsertRecord(salesRecordObject)
       {
         if(error)
         {
-          console.log("unable to save");
+          console.log(error);
         }
       });
     }
@@ -211,13 +209,18 @@ function camelCase(input)
     .replace(/\s(.)/g, function(match, g){ return g.toUpperCase(); });
 }
 
+function sanitizeNumber(string)
+{
+	return parseFloat(string.replace(/[^\d.-]/g, ''));
+}
+
 function typeConvert(conversionObject, key, value){
   if(conversionObject.hasOwnProperty(key))
   {
     switch(conversionObject[key])
     {
       case "int":
-        return parseInt(value.replace(',',''));
+        return sanitizeNumber(value);
       case "date":
         return new Date(value.replace('/', '.'));
       default: //should not reach here
