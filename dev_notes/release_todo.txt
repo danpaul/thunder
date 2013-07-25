@@ -7,3 +7,5 @@ Mongoose
 do further research on security vulnerabilities including key modules(Express)
 
 do further research regarding server configuration, connection pooling
+
+re-read mongoose connection info: http://mongoosejs.com/docs/connections.html

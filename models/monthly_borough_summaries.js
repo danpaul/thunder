@@ -3,6 +3,7 @@
 //------------------------------------------------------------------------------
 
 var config = require('../config');
+var salesRecord = require(config.salesRecordModelfile);
 var mongoose = require('mongoose');
 var db = config.dbURI;
 //var monthlySummaryModelName = config.mothlyBoroughSummariesModelName;
@@ -23,11 +24,52 @@ var monthlyBoroughSummarySchema = mongoose.Schema
   medianSalePrice: Number
 });
 
+///////////////////////fix this
 var salesRecordModel = require(config.salesRecordModelfile).createModel();
+var monthlyBoroughSummaryModel = mongoose.model(config.mothlyBoroughSummariesModelName, monthlyBoroughSummarySchema);
 
-exports.buildMonthlyBoroughSummary = function()
+function buildMonthSummary(startDate, endDate)
 {
-	console.log("success");	
+	//generate query gte start date, lte start date + 1
+	//generate summary record and save
+	//salesRecordModel.find
+	salesRecord.dateRangeEachDo(startDate, endDate);//, function(err, record)
+	// {
+		// if(err)
+		// {
+			// console.log(err);
+		// }else{
+			// console.log(record);
+		// }
+// .where('saleDate').gt(startDate).lt(endDate)
+		// .exec(function(err, record){
+			// console.log(record);		
+		// });
+	//});
+		
+}
+
+//this will generate monthly summaries from startDate up to but not including end
+//date. The day of each date should be (or will be converted to the first day
+//of the month and midnight.
+exports.buildMonthlyBoroughSummary = function(startDate, endDate)
+{
+	startDate.setDate(1)
+	startDate.setHours(0,0,0,0);
+	endDate.setDate(1)
+	endDate.setHours(0,0,0,0);	
+
+	while(startDate.getTime() < endDate.getTime())
+	{
+		buildMonthSummary(startDate, endDate);
+		if(startDate.getMonth == 11)
+		{
+			startDate.setMonth(1);
+			startDate.setYear(startDate.getYear() + 1);
+		}else{
+			startDate.setMonth(startDate.getMonth() + 1);
+		}
+	}
 };
 
 

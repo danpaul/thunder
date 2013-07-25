@@ -1,5 +1,7 @@
 Todo:
 
+remember JS months are 0 based but days of the month are not
+
 change tax class category (2 related fields) to string
 
 import larger data set
@@ -85,3 +87,5 @@ type conversion for csv data
 convert header row into js friendly names
 
 update mongo model with all spreadsheet header row
+
+For long running applictions it is often prudent to enable keepAlive. Without it, after some period of time you may start to see "connection closed" errors for what seems like no reason. If so, after reading this, you may decide to enable keepAlive:

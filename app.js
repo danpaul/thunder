@@ -21,10 +21,13 @@ app.get('*', function (req, res) {
 // Testing
 //----------------------------------------------------------------------
 
-require(config.modelsDirectory + '/monthly_borough_summaries')
-	.buildMonthlyBoroughSummary();
+var boroughSummary = require(config.modelsDirectory + '/monthly_borough_summaries');
+var startDate = new Date(2004, 0, 1);
+var endDate = new Date(2004, 1, 1);
 
-var salesRecordModel = require(config.modelsDirectory + '/sales_records');
+boroughSummary.buildMonthlyBoroughSummary(startDate, endDate);
+
+//var salesRecordModel = require(config.modelsDirectory + '/sales_records');
 
 // salesRecordModel.getEarliestRecord(function(err, record)
   // {
