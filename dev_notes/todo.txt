@@ -1,5 +1,7 @@
 Todo:
 
+iterate through boroughs and determine borough numbers in database files
+
 set global requires, is this possible?
 
 remember JS months are 0 based but days of the month are not
@@ -60,7 +62,8 @@ generate summary records from db
 
 	Validation:
 
-		validate all aspects of cvs import(headers, cells, etc.)
+		validate all aspects of csv import(headers, cells, etc.)
+			validate price
 
 
 	

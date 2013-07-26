@@ -159,12 +159,6 @@ exports.dateRangeEachDo = function(startDate, endDate, callback)
 	salesRecordModel
 		.find({ saleDate: {$gte: startDate.getTime(), $lte: endDate.getTime()}})
 		.exec(callback);
-		// function(err, record)
-		// {
-			// if(err){
-			// console.log(error);}
-			// else{callback(record);}
-		// });
 }
 
 exports.getEarliestRecord = function(callback)
