@@ -1,5 +1,9 @@
 Todo:
 
+update upsert in sales_records.js(may only be saving new records)
+
+use borough as a search parameter
+
 iterate through boroughs and determine borough numbers in database files
 
 set global requires, is this possible?

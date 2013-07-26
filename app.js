@@ -23,7 +23,7 @@ app.get('*', function (req, res) {
 
 var boroughSummary = require(config.modelsDirectory + '/monthly_borough_summaries');
 var startDate = new Date(2004, 0, 1);
-var endDate = new Date(2004, 2, 1);
+var endDate = new Date(2005, 0, 1);
 
 boroughSummary.buildMonthlyBoroughSummary(startDate, endDate);
 
