@@ -1,6 +1,6 @@
 Todo:
 
-update upsert in sales_records.js(may only be saving new records)
+update upsert in sales_records.js and monthly_summaries...js (may only be saving new records)
 
 use borough as a search parameter
 
