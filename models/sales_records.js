@@ -15,7 +15,6 @@ var salseRecordModelName = config.salseRecordModelName;
 // schema
 //------------------------------------------------------------------------------
 
-
 var salesRecordSchema = mongoose.Schema
 ({
 //From imported data file:
@@ -70,13 +69,13 @@ var salesRecordModel = exports.model = mongoose.model(config.salseRecordModelNam
 //  matches an existing record (it is schema depenedent)
 //------------------------------------------------------------------------------
 
-function matchQueryBuilder(mongooseModel)
+function matchQueryBuilder(record)
 {
   return
   ({
-      'address': mongooseModel.address,
-	  'apartmentNumber': mongooseModel.apartmentNumber,
-	  'saleDate': mongooseModel.saleDate
+      'address': record.address,
+	  'apartmentNumber': record.apartmentNumber,
+	  'saleDate': record.saleDate
     });
 }
 
@@ -107,11 +106,23 @@ exports.buildCollection = function()
 
 function upsertRecord(salesRecord)
 {
-  query = matchQueryBuilder(salesRecord);  
-  salesRecordModel.update(query, salesRecord, {upsert: true}, function(err)
+  var query = matchQueryBuilder(salesRecord);
+//p(salesRecord);
+//monthlyBoroughSummaryModel.update(query, record, {upsert: true}
+
+
+  
+
+  new salesRecordModel(salesRecord).save(function(err)
   {
 	if(err){console.log(err)};
   });
+
+
+  // salesRecordModel.update(query, salesRecord, {upsert: true}, function(err)
+  // {
+	// if(err){console.log(err)};
+  // });
 }
 
 //------------------------------------------------------------------------------

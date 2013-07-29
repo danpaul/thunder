@@ -1,5 +1,11 @@
 Todo:
 
+debug sales_records save function
+
+do we need to sort results from api queries?
+
+develp a centralized error handler and logger
+
 add nextTick to "big" csv and db processing operations
 
 get api functioning

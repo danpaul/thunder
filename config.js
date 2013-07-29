@@ -18,4 +18,6 @@ config.salesRecordsFile = __dirname + '/data/summary_staten.csv';
 
 config.boroughs = [1, 2, 3, 4, 5];
 
+config.internalServerError = 'The server encountered an unexpected condition which prevented it from fulfilling the request.';
+
 module.exports = config;

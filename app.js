@@ -10,6 +10,7 @@ var config = require('./config'),
 
 var helpers = require(config.helpersFile);
 var validate = require(config.validationFile);
+var controller = require(config.controllersDirectory);
 	
 mongoose.connect(config.dbURI);
 
@@ -18,7 +19,7 @@ mongoose.connect(config.dbURI);
 var app = express();
 app.use(express.bodyParser());
 
-app.get('/api/:borough/month/:startDate/:endDate', function(req, res)
+app.get('/api/monthly/borough/:borough/:startDate/:endDate', function(req, res)
 {
 	var requestParams =
 	{
@@ -26,17 +27,13 @@ app.get('/api/:borough/month/:startDate/:endDate', function(req, res)
 		endDate: validate.buildDate(req.params.endDate),
 		borough: validate.buildBorough(req.params.borough)
 	};
-//p(requestParams);
 	var validation = validate.validateParams(requestParams);
 	if(validation === true)
 	{
-		//process request
+		controller.monthlyBoroughSummaries.get(req, res, requestParams);
 	}else{
 		res.send(400, validation);		
 	}
-	
-	res.send('success');
-
 });
 
 app.get('*', function (req, res)
@@ -50,6 +47,32 @@ app.listen(3000);
 //----------------------------------------------------------------------
 // Testing
 //----------------------------------------------------------------------
+
+//var meta = require(config.modelsDirectory + '/meta');
+var meta = require(config.modelsDirectory).meta;
+
+//salesRecordModel = require(config.modelsDirectory).salesRecords;
+var salesRecordModel = require(config.modelsDirectory).salesRecords;
+salesRecordModel.buildCollection();
+
+//p(salesRecordModel);
+meta.buildZipList();
+
+// var m = require(config.modelsDirectory).monthlyBoroughSummaries.model;
+
+// m.find({
+	// date:{$gte: new Date(2004, 0, 1), $lt: new Date(2004, 11, 1)}},
+	// function(err, record)
+// {
+	// console.log(record);
+
+// });
+
+		// .find(
+		// {
+			// saleDate: {$gte: startDate.getTime(), $lte: endDate.getTime()},
+			// borough: borough
+		// })
 
 // var boroughSummary = require(config.modelsDirectory + '/monthly_borough_summaries');
 // var startDate = new Date(2004, 0, 1);

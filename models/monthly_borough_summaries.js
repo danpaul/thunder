@@ -29,11 +29,12 @@ var monthlyBoroughSummarySchema = mongoose.Schema
 });
 
 ///////////////////////fix this
-var salesRecordModel = require(config.salesRecordModelfile).createModel();
-var monthlyBoroughSummaryModel = mongoose.model(config.mothlyBoroughSummariesModelName, monthlyBoroughSummarySchema);
+//var salesRecordModel = require(config.salesRecordModelfile).createModel();
+var salesRecordModel = require(config.salesRecordModelfile).model;
+var monthlyBoroughSummaryModel = exports.model = mongoose.model(config.mothlyBoroughSummariesModelName, monthlyBoroughSummarySchema);
 
 //--------------------------------------------------------------------------------
-// Generate Monthly summaries
+// Database construction/updating
 //
 //this will generate monthly summaries from startDate up to but not including end
 //date. The day of each date should be (or will be converted to) the first day
