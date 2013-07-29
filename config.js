@@ -15,6 +15,6 @@ config.mothlyBoroughSummariesModelName = 'monthlySummary';
 config.salesRecordsFile = __dirname + '/data/summary_staten.csv';
 //config.salesRecordsFile = __dirname + '/data/short_summary.csv';
 
-config.boroughs = [5];
+config.boroughs = [1, 2, 3, 4, 5];
 
 module.exports = config;

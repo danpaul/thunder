@@ -46,24 +46,28 @@ exports.buildMonthlyBoroughSummary = function(startDate, endDate)
 	endDate.setDate(1);
 	endDate.setHours(0,0,0,0);
 	
+	var dateIter = new Date(startDate.getTime());
+	
 	_.each(config.boroughs, function(element, index, list)
 	{
-		while(startDate.getTime() < endDate.getTime())
+		while(dateIter.getTime() < endDate.getTime())
 		{
-			buildMonthSummary(startDate, endDate, element);
-			if(startDate.getMonth == 11)
+			buildMonthSummary(dateIter, endDate, element);
+			if(dateIter.getMonth == 11)
 			{
-				startDate.setMonth(1);
-				startDate.setYear(startDate.getYear() + 1);
+				dateIter.setMonth(1);
+				sdateIter.setYear(dateIter.getYear() + 1);
 			}else{
-				startDate.setMonth(startDate.getMonth() + 1);
+				dateIter.setMonth(dateIter.getMonth() + 1);
 			}
 		}
+		dateIter = new Date(startDate.getTime());
 	});
 };
 
 function buildMonthSummary(startDate, endDate, borough)
 {
+p(borough);
 	salesRecordModel
 		.find(
 		{
@@ -71,6 +75,7 @@ function buildMonthSummary(startDate, endDate, borough)
 			borough: borough
 		})
 		.exec(buildCallback(startDate.getTime(), borough));
+printRecords();
 }
 
 function saveRecords(startDate, borough, records)
@@ -102,9 +107,12 @@ function buildCallback(startDateIn, boroughIn)
 		if(err){console.log(err);}
 		else
 		{
-			var startDate = new Date(startDateIn);
-			var borough = boroughIn;
-			saveRecords(startDate, borough, records);
+			if(!(records.length === 0))
+			{
+				var startDate = new Date(startDateIn);
+				var borough = boroughIn;
+				saveRecords(startDate, borough, records);
+			}
 		}
 	}
 }
