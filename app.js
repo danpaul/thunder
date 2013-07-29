@@ -9,7 +9,7 @@ var config = require('./config'),
 	mongoose = require('mongoose');
 
 var helpers = require(config.helpersFile);
-var validate = require(config.validationFile).validateRequest;
+var validate = require(config.validationFile);
 	
 mongoose.connect(config.dbURI);
 
@@ -22,23 +22,20 @@ app.get('/api/:borough/month/:startDate/:endDate', function(req, res)
 {
 	var requestParams =
 	{
-		startDate: helpers.buildDate(req.params.startDate),
-		endDate: helpers.buildDate(req.params.endDate),
-		borough: helpers.buildBorough(req.params.borough)
+		startDate: validate.buildDate(req.params.startDate),
+		endDate: validate.buildDate(req.params.endDate),
+		borough: validate.buildBorough(req.params.borough)
 	};
-p(requestParams);
-	var validation = validate(requestParams);
+//p(requestParams);
+	var validation = validate.validateParams(requestParams);
 	if(validation === true)
 	{
 		//process request
 	}else{
-		res.status(400);
-		res.send(validation);				
+		res.send(400, validation);		
 	}
-//p(req.params.borough);
-// p(buildDate(req.params.startDate));
-// p(req.params.endDate);
-res.send('foo bar');
+	
+	res.send('success');
 
 });
 
