@@ -20,11 +20,10 @@ var p = console.log;
 
 var monthlyBoroughSummarySchema = mongoose.Schema
 ({
-//String
   borough: {type: Number, index: true},
-//Number
   date: {type: Date, index: true},
   totalSales: Number,
+  salesSum: Number,
   averageSalePrice: Number,
   medianSalePrice: Number
 });
@@ -33,11 +32,13 @@ var monthlyBoroughSummarySchema = mongoose.Schema
 var salesRecordModel = require(config.salesRecordModelfile).createModel();
 var monthlyBoroughSummaryModel = mongoose.model(config.mothlyBoroughSummariesModelName, monthlyBoroughSummarySchema);
 
+//--------------------------------------------------------------------------------
+// Generate Monthly summaries
+//
 //this will generate monthly summaries from startDate up to but not including end
 //date. The day of each date should be (or will be converted to) the first day
 //of the month and midnight.
-
-//this will need to iterate boroughs
+//
 exports.buildMonthlyBoroughSummary = function(startDate, endDate)
 {
 	startDate.setDate(1);
@@ -61,51 +62,37 @@ exports.buildMonthlyBoroughSummary = function(startDate, endDate)
 	});
 };
 
+function buildMonthSummary(startDate, endDate, borough)
+{
+	salesRecordModel
+		.find(
+		{
+			saleDate: {$gte: startDate.getTime(), $lte: endDate.getTime()},
+			borough: borough
+		})
+		.exec(buildCallback(startDate.getTime(), borough));
+}
+
 function saveRecords(startDate, borough, records)
 {
 	var saleSum = 0.0;
 	var totalSales = 0.0;
-	var prices = [];				
+	var prices = [];
 	_.each(records, function(element, index, list)
 	{
 		prices.push(element.salePrice);
 		saleSum += element.salePrice;
 		totalSales += 1.0;
 	});
-	
 	upsertRecord 
 	({
 		borough: borough,
 		date: startDate,
+		medianSalePrice: helpers.getMedian(prices),
+		salesSum: saleSum,
 		totalSales: totalSales,
-		averageSalePrice: saleSum/totalSales,
-		medianSalePrice: helpers.getMedian(prices)
+		averageSalePrice: saleSum/totalSales
 	});
-}
-
-function upsertRecord(record)
-{
-	var record = new monthlyBoroughSummaryModel(record);
-	var query =
-	{
-		'date': record.date,
-		'borough': record.borough
-	};
-	
-	monthlyBoroughSummaryModel.findOne(query, function(error, doc)
-	{
-		if(error){console.log(error);
-		}else{
-			if(!(doc)) //no match(new record)
-			{
-console.log('saving');
-				record.save(function(error, record){if(error){console.log(error);}});
-			}else{
-console.log('found record');
-			///////////update record////////////////////////
-			}
-		}
-    });
 }
 
 function buildCallback(startDateIn, boroughIn)
@@ -122,13 +109,24 @@ function buildCallback(startDateIn, boroughIn)
 	}
 }
 
-function buildMonthSummary(startDate, endDate, borough)
+function upsertRecord(record)
 {
-	salesRecordModel
-		.find(
-		{
-			saleDate: {$gte: startDate.getTime(), $lte: endDate.getTime()},
-			borough: borough
-		})
-		.exec(buildCallback(startDate.getTime(), borough));
+	var query =
+	{
+		'date': record.date,
+		'borough': record.borough
+	};
+	
+	monthlyBoroughSummaryModel.update(query, record, {upsert: true}, function(err)
+	{
+		if(err){console.log(err);}
+	});
+}
+
+//------------------------------------------------------------------------------
+// Debugging
+
+function printRecords()
+{
+	monthlyBoroughSummaryModel.find(function(err, records){console.log(records)});
 }
