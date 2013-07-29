@@ -67,7 +67,6 @@ exports.buildMonthlyBoroughSummary = function(startDate, endDate)
 
 function buildMonthSummary(startDate, endDate, borough)
 {
-p(borough);
 	salesRecordModel
 		.find(
 		{
@@ -75,7 +74,6 @@ p(borough);
 			borough: borough
 		})
 		.exec(buildCallback(startDate.getTime(), borough));
-printRecords();
 }
 
 function saveRecords(startDate, borough, records)

@@ -1,12 +1,16 @@
 Todo:
 
+add nextTick to "big" csv and db processing operations
+
+get api functioning
+
+start testing!!!
+
 check if borough not found
 
 add salesSum to monthly_borough_summaries
 
 update upsert in sales_records.js and monthly_summaries...js (may only be saving new records)
-
-X use borough as a search parameter
 
 iterate through boroughs and determine borough numbers in database files
 
@@ -86,6 +90,8 @@ generate summary records from db
 		update package file
 
 DONE:
+
+use borough as a search parameter
 
 write "find match" function -- use sales date and address
 

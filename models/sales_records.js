@@ -69,7 +69,7 @@ var headerConversionTypes =
 };
 
 //var salesRecordSchema = mongoose.Schema(salesRecordSchemaObject);
-var salesRecordModel = mongoose.model(salseRecordModelName, salesRecordSchema);
+var salesRecordModel = exports.model = mongoose.model(salseRecordModelName, salesRecordSchema);
 
 //------------------------------------------------------------------------------
 // match query builder
@@ -81,9 +81,9 @@ function matchQueryBuilder(mongooseModel)
 {
   return
   ({
-    'address': mongooseModel.address,
-      'apartmentNumber': mongooseModel.apartmentNumber,
-      'saleDate': mongooseModel.saleDate
+      'address': mongooseModel.address,
+	  'apartmentNumber': mongooseModel.apartmentNumber,
+	  'saleDate': mongooseModel.saleDate
     });
 }
 
@@ -92,7 +92,7 @@ function matchQueryBuilder(mongooseModel)
 //------------------------------------------------------------------------------
 
 //saveMethodFlag can be: upsert, update, refresh
-exports.buildCollection = function(saveMethodFlag)
+exports.buildCollection = function()
 {
   var arrayLength = 0,
     header,
@@ -108,46 +108,34 @@ exports.buildCollection = function(saveMethodFlag)
         header = buildHeader(row);
       }else{
         newRecord = buildRecord(header, row);
-        switch(saveMethodFlag)
-        {
-          case 'update':
-            break;
-          case 'upsert':
-            upsertRecord(newRecord);
-            break;
-          case 'refresh':
-            break;
-        }
-      }
-      if(saveMethodFlag === 'refresh'){
-//trigger loop to delete all records and pass callback to handle error
-      }
-    })
+		upsertRecord(newRecord);
+	  }
+    });
 }
 
-var create = exports.createModel = function() 
-{ 
-  return(mongoose.model(salseRecordModelName, salesRecordSchema));
-}
-
-function upsertRecord(salesRecordObject)
+function upsertRecord(salesRecord)
 {
-  var salesRecord = new salesRecordModel(salesRecordObject);
+  //var salesRecord = new salesRecordModel(salesRecordObject);
   query = matchQueryBuilder(salesRecord);
-
-  salesRecordModel.findOne(query, function(error, doc)
-  {   
-    if(!(doc)) //no match(new record)
-    {
-      salesRecord.save(function (error, record)
-      {
-        if(error)
-        {
-          console.log(error);
-        }
-      });
-    }
+  
+  salesRecordModel.update(query, salesRecord, {upsert: true}, function(err)
+  {
+	if(err){console.log(err)};
   });
+
+  // salesRecordModel.findOne(query, function(error, doc)
+  // {
+    // if(!(doc)) //no match(new record)
+    // {
+      // salesRecord.save(function (error, record)
+      // {
+        // if(error)
+        // {
+          // console.log(error);
+        // }
+      // });
+    // }
+  // });
 }
 
 //------------------------------------------------------------------------------
@@ -176,7 +164,6 @@ exports.getLatestRecord = function(callback)
                   .limit(1)
                   .exec(callback);
 }
-
 
 //------------------------------------------------------------------------------
 // helpers
