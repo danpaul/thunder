@@ -6,6 +6,7 @@ config.modelsDirectory = __dirname + '/models';
 config.viewsDirectory = __dirname + '/views';
 config.controllersDirectory = __dirname + '/controllers';
 config.helpersFile = __dirname + '/helpers/helpers.js';
+config.validationFile = __dirname + '/validation/request_validation.js';
 
 //collection will be this name pluralized
 config.salseRecordModelName = 'salesRecord';

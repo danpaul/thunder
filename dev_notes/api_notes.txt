@@ -1,0 +1,4 @@
+specs
+
+will follow pattern
+	object[city, borough, neighborhood, zip]/type-of-report[mont, quarter, year]/start-date/end-date/?options

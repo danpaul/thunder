@@ -2,11 +2,11 @@
 // require/setup
 //------------------------------------------------------------------------------
 
-var config = require('../config');
+var config = require('../config'),
+	csv = require('csv'),
+	mongoose = require('mongoose');
 
-var csv = require('csv');
-var mongoose = require('mongoose');
-
+var helpers = require(config.helpersFile);
 var db = config.dbURI;
 
 var salseRecordModelName = config.salseRecordModelName;
@@ -44,13 +44,7 @@ var salesRecordSchema = mongoose.Schema
   yearBuilt: Number,
 //Date
   saleDate: {type: Date, index: true}
-//Not from imported data file
-  //lastUpdate: {type: Date, default: Date.now()}
 });
-
-//------------------------------------------------------------------------------
-// schema conversion
-//------------------------------------------------------------------------------
 
 var headerConversionTypes = 
 {
@@ -68,8 +62,7 @@ var headerConversionTypes =
   saleDate: "date"
 };
 
-//var salesRecordSchema = mongoose.Schema(salesRecordSchemaObject);
-var salesRecordModel = exports.model = mongoose.model(salseRecordModelName, salesRecordSchema);
+var salesRecordModel = exports.model = mongoose.model(config.salseRecordModelName, salesRecordSchema);
 
 //------------------------------------------------------------------------------
 // match query builder
@@ -91,7 +84,6 @@ function matchQueryBuilder(mongooseModel)
 // build collection
 //------------------------------------------------------------------------------
 
-//saveMethodFlag can be: upsert, update, refresh
 exports.buildCollection = function()
 {
   var arrayLength = 0,
@@ -115,39 +107,23 @@ exports.buildCollection = function()
 
 function upsertRecord(salesRecord)
 {
-  //var salesRecord = new salesRecordModel(salesRecordObject);
-  query = matchQueryBuilder(salesRecord);
-  
+  query = matchQueryBuilder(salesRecord);  
   salesRecordModel.update(query, salesRecord, {upsert: true}, function(err)
   {
 	if(err){console.log(err)};
   });
-
-  // salesRecordModel.findOne(query, function(error, doc)
-  // {
-    // if(!(doc)) //no match(new record)
-    // {
-      // salesRecord.save(function (error, record)
-      // {
-        // if(error)
-        // {
-          // console.log(error);
-        // }
-      // });
-    // }
-  // });
 }
 
 //------------------------------------------------------------------------------
 // getters and setters
 //------------------------------------------------------------------------------
 
-exports.dateRangeEachDo = function(startDate, endDate, callback)
-{
-	salesRecordModel
-		.find({ saleDate: {$gte: startDate.getTime(), $lte: endDate.getTime()}})
-		.exec(callback);
-}
+// exports.dateRangeEachDo = function(startDate, endDate, callback)
+// {
+	// salesRecordModel
+		// .find({ saleDate: {$gte: startDate.getTime(), $lte: endDate.getTime()}})
+		// .exec(callback);
+// }
 
 exports.getEarliestRecord = function(callback)
 {
@@ -173,7 +149,7 @@ function buildHeader(headerRow)
 {
   var arrayLength = headerRow.length;
   var header = new Array(arrayLength);
-  for(var i = 0; i < arrayLength; i++) { header[i] = camelCase(headerRow[i]); }
+  for(var i = 0; i < arrayLength; i++) { header[i] = helpers.camelCase(headerRow[i]); }
   return(header);
 }
 
@@ -190,26 +166,13 @@ function buildRecord(header, row)
   return newRecord;
 }
 
-function camelCase(input)
-{ 
-   return input
-    .toLowerCase()
-    .replace(/^\s+|\s+$/g,'')
-    .replace(/\s(.)/g, function(match, g){ return g.toUpperCase(); });
-}
-
-function sanitizeNumber(string)
-{
-	return parseFloat(string.replace(/[^\d.-]/g, ''));
-}
-
 function typeConvert(conversionObject, key, value){
   if(conversionObject.hasOwnProperty(key))
   {
     switch(conversionObject[key])
     {
       case "int":
-        return sanitizeNumber(value);
+        return helpers.sanitizeNumberString(value);
       case "date":
         return new Date(value.replace('/', '.'));
       default: //should not reach here

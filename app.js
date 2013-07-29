@@ -1,11 +1,16 @@
-var config = require('./config');
+p = console.log
 
 //----------------------------------------------------------------------
 // Require
 //----------------------------------------------------------------------
 
-var express = require('express');
-var mongoose = require('mongoose');
+var config = require('./config'),
+	express = require('express'),
+	mongoose = require('mongoose');
+
+var helpers = require(config.helpersFile);
+var validate = require(config.validationFile).validateRequest;
+	
 mongoose.connect(config.dbURI);
 
 //----------------------------------------------------------------------
@@ -13,9 +18,37 @@ mongoose.connect(config.dbURI);
 var app = express();
 app.use(express.bodyParser());
 
-app.get('*', function (req, res) {
-  res.send('test');
-})
+app.get('/api/:borough/month/:startDate/:endDate', function(req, res)
+{
+	var requestParams =
+	{
+		startDate: helpers.buildDate(req.params.startDate),
+		endDate: helpers.buildDate(req.params.endDate),
+		borough: helpers.buildBorough(req.params.borough)
+	};
+p(requestParams);
+	var validation = validate(requestParams);
+	if(validation === true)
+	{
+		//process request
+	}else{
+		res.status(400);
+		res.send(validation);				
+	}
+//p(req.params.borough);
+// p(buildDate(req.params.startDate));
+// p(req.params.endDate);
+res.send('foo bar');
+
+});
+
+app.get('*', function (req, res)
+{
+  res.status(404);
+  res.send('not found');
+});
+
+app.listen(3000);
 
 //----------------------------------------------------------------------
 // Testing
@@ -29,11 +62,11 @@ app.get('*', function (req, res) {
 
 //--------------------------------------------------------------------
 
-var controller = require(config.controllersDirectory).salesRecords;
-controller.upsertCollection();
+// var controller = require(config.controllersDirectory).salesRecords;
+// controller.upsertCollection();
 
-var salesRecordModel = require(config.modelsDirectory + '/sales_records').model;
+// var salesRecordModel = require(config.modelsDirectory + '/sales_records').model;
 
-salesRecordModel.findOne(function(err, doc) {
-	console.log(doc);
-});
+// salesRecordModel.findOne(function(err, doc) {
+	// console.log(doc);
+// });
