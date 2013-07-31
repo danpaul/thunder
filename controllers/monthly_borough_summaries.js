@@ -11,8 +11,9 @@ exports.get = function(req, res, params)
 	({
 		date:{$gte: params.startDate, $lt: params.endDate},
 		borough: params.borough
-	},
-	function(err, records)
+	})
+	.sort({date: 1})
+	.exec(function(err, records)
 	{
 		if(err)
 		{

@@ -1,5 +1,7 @@
 Todo:
 
+make requests sorted
+
 validate zip codes
 
 input sanitize (request params)

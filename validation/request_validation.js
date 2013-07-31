@@ -41,7 +41,6 @@ exports.validateParams = function(requestParameters, callback)
 
 exports.validateExention = function(req, res, ext)
 {
-p(ext.toLowerCase());
 	if(!(ext.toLowerCase() == 'json'))
 	{
 		res.send(500, 'Request error: ' + ext + ' is not a valid format.');	
