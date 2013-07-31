@@ -1,5 +1,7 @@
 p = console.log
 
+printResult = function(e,r){if(e){p(e)}else{p(r)}};
+
 //----------------------------------------------------------------------
 // Require
 //----------------------------------------------------------------------
@@ -51,10 +53,19 @@ app.listen(3000);
 //var meta = require(config.modelsDirectory + '/meta');
 var meta = require(config.modelsDirectory).meta;
 
-//salesRecordModel = require(config.modelsDirectory).salesRecords;
-var salesRecord = require(config.modelsDirectory).salesRecords;
+//var SalesRecord = require(config.modelsDirectory).salesRecords.model;
+
+
+//var salesRecord = require(config.modelsDirectory).salesRecords;
 //salesRecord.buildCollection();
 //salesRecord.model.findOne(function(e,r){p(r)});
+
+var newRecord = new require(config.modelsDirectory + '/sales_records').model();
+
+//p(newRecord);
+
+//newRecord.getEarliestRecord(printResult);
+newRecord.getLastRecord(printResult);
 
 //p(salesRecordModel);
 //meta.buildZipList();

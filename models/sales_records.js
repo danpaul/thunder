@@ -61,7 +61,25 @@ var headerConversionTypes =
   saleDate: "date"
 };
 
-var salesRecordModel = exports.model = mongoose.model(config.salseRecordModelName, salesRecordSchema);
+salesRecordSchema.methods.foo = function(){p('foo')};
+
+salesRecordSchema.methods.getEarliestRecord = function(callback)
+{
+  SalesRecord.findOne({}, 'saleDate')  
+                  .sort({saleDate: 1})
+                  .limit(1)
+                  .exec(callback);
+}
+
+salesRecordSchema.methods.getLastRecord = function(callback)
+{
+  SalesRecord.findOne()  
+                  .sort({saleDate: -1})
+                  .limit(1)
+                  .exec(callback);
+}
+
+var SalesRecord = exports.model = mongoose.model(config.salseRecordModelName, salesRecordSchema);
 
 //------------------------------------------------------------------------------
 // match query builder
@@ -104,50 +122,13 @@ exports.buildCollection = function()
     });
 }
 
-// function upsertRecord(salesRecord)
-// {
-  // var query = matchQueryBuilder(salesRecord);
-  // new salesRecordModel(salesRecord).save(function(err)
-  // {
-	// if(err){console.log(err)};
-  // });
-// }
-
 function upsertRecord(record)
 {
 	var query = matchQueryBuilder(record);
-//p(query);	
-	salesRecordModel.update(query, record, {upsert: true}, function(err)
+	SalesRecord.update(query, record, {upsert: true}, function(err)
 	{
 		if(err){console.log(err);}
 	});
-}
-
-//------------------------------------------------------------------------------
-// getters and setters
-//------------------------------------------------------------------------------
-
-// exports.dateRangeEachDo = function(startDate, endDate, callback)
-// {
-	// salesRecordModel
-		// .find({ saleDate: {$gte: startDate.getTime(), $lte: endDate.getTime()}})
-		// .exec(callback);
-// }
-
-exports.getEarliestRecord = function(callback)
-{
-  salesRecordModel.find({}, 'saleDate')  
-                  .sort({saleDate: 1})
-                  .limit(1)
-                  .exec(callback);
-}
-
-exports.getLatestRecord = function(callback)
-{
-  salesRecordModel.find()  
-                  .sort({saleDate: -1})
-                  .limit(1)
-                  .exec(callback);
 }
 
 //------------------------------------------------------------------------------
@@ -164,7 +145,6 @@ function buildHeader(headerRow)
 
 function buildRecord(header, row)
 {
-//console.log(header);
   var newRecord = {};
   for(var i = 0; i < header.length; i++)
   {

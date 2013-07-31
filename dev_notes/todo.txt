@@ -1,5 +1,7 @@
 Todo:
 
+import/test borough parsing
+
 maybe add last processed field to base salesrecords?
 
 change name of models (capitalize)
