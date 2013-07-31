@@ -15,6 +15,7 @@ config.metaModelfile = config.modelsDirectory + '/meta';
 
 config.salesRecordModelfile = config.modelsDirectory + '/sales_records';
 config.mothlyBoroughSummariesModelName = 'monthlySummary';
+config.monthlyZipSummaryModelfile = config.modelsDirectory + '/monthly_zip_summaries';
 
 config.salesRecordsFile = __dirname + '/data/summary_staten.csv';
 //config.salesRecordsFile = __dirname + '/data/short_summary.csv';

@@ -1,5 +1,9 @@
 Todo:
 
+validate zip codes
+
+input sanitize (request params)
+
 import/test borough parsing
 
 maybe add last processed field to base salesrecords?
