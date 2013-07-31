@@ -22,11 +22,11 @@ var metaSchema = mongoose.Schema
   value: {type: mongoose.Schema.Types.Mixed},
 });
 
-var Meta = exports.meta = mongoose.model('meta', metaSchema);
+var Meta = exports.model = mongoose.model('meta', metaSchema);
 
 exports.buildZipList = function()
 {
-	Meta.findOne({key: 'zipList'}, function(err, record)
+	Meta.findOne({key: config.key.zip}, function(err, record)
 	{
 		if(err){console.log(err)
 		}else{
@@ -43,11 +43,10 @@ exports.buildZipList = function()
 					zipArray.push(key);
 				});
 				zipArray = _.uniq(zipArray);
-				Meta.update({key: 'zipList'}, {value: zipArray}, {upsert: true}, function(err)
+				Meta.update({key: config.key.zip}, {value: zipArray}, {upsert: true}, function(err)
 				{
 					if(err){console.log(err);}
 				});
-				
 			});
 		}
 	});	

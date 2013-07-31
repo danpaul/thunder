@@ -1,6 +1,6 @@
 p = console.log
 
-printResult = function(e,r){if(e){p(e)}else{p(r)}};
+printRecord = function(e,r){if(e){p(e)}else{p(r)}};
 
 //----------------------------------------------------------------------
 // Require
@@ -50,42 +50,8 @@ app.listen(3000);
 // Testing
 //----------------------------------------------------------------------
 
-var meta = require(config.modelsDirectory).meta;
+var monthlyZip = require(config.modelsDirectory + '/monthly_zip_summaries');
 
-//meta.buildZipList();
+monthlyZip.buildMonthlyZipSummary(new Date(2000, 0, 1), new Date(2014, 9, 1));
 
-//p(salesRecordModel);
-meta.buildZipList();
-
-// var m = require(config.modelsDirectory).monthlyBoroughSummaries.model;
-
-// m.find({
-	// date:{$gte: new Date(2004, 0, 1), $lt: new Date(2004, 11, 1)}},
-	// function(err, record)
-// {
-	// console.log(record);
-
-// });
-
-		// .find(
-		// {
-			// saleDate: {$gte: startDate.getTime(), $lte: endDate.getTime()},
-			// borough: borough
-		// })
-
-// var boroughSummary = require(config.modelsDirectory + '/monthly_borough_summaries');
-// var startDate = new Date(2004, 0, 1);
-// var endDate = new Date(2005, 0, 1);
-
-// boroughSummary.buildMonthlyBoroughSummary(startDate, endDate);
-
-//--------------------------------------------------------------------
-
-// var controller = require(config.controllersDirectory).salesRecords;
-// controller.upsertCollection();
-
-// var salesRecordModel = require(config.modelsDirectory + '/sales_records').model;
-
-// salesRecordModel.findOne(function(err, doc) {
-	// console.log(doc);
-// });
+//monthlyZip.model.findOne(printRecord)

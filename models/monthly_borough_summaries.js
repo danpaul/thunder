@@ -71,7 +71,7 @@ function buildMonthSummary(startDate, endDate, borough)
 	salesRecordModel
 		.find(
 		{
-			saleDate: {$gte: startDate.getTime(), $lte: endDate.getTime()},
+			saleDate: {$gte: startDate.getTime(), $lt: endDate.getTime()},
 			borough: borough
 		})
 		.exec(buildCallback(startDate.getTime(), borough));

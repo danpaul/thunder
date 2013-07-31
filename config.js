@@ -2,21 +2,25 @@ var config = {};
 
 config.dbURI = 'mongodb://localhost:27017/thunder';
 
-//config.salesRecordModel = require(__dirname + '/models/sales_records').model;
-
 config.modelsDirectory = __dirname + '/models';
 config.viewsDirectory = __dirname + '/views';
 config.controllersDirectory = __dirname + '/controllers';
+
 config.helpersFile = __dirname + '/helpers/helpers.js';
 config.validationFile = __dirname + '/validation/request_validation.js';
 
-//collection will be this name pluralized
-config.salseRecordModelName = 'salesRecord';
+config.salseRecordModelName = 'salesRecord'; ////
+
+config.metaModelfile = config.modelsDirectory + '/meta';
+
 config.salesRecordModelfile = config.modelsDirectory + '/sales_records';
 config.mothlyBoroughSummariesModelName = 'monthlySummary';
 
 config.salesRecordsFile = __dirname + '/data/summary_staten.csv';
 //config.salesRecordsFile = __dirname + '/data/short_summary.csv';
+
+config.key = {};
+config.key.zip = 'zipList';
 
 config.boroughs = [1, 2, 3, 4, 5];
 
