@@ -2,6 +2,8 @@ var config = {};
 
 config.dbURI = 'mongodb://localhost:27017/thunder';
 
+//config.salesRecordModel = require(__dirname + '/models/sales_records').model;
+
 config.modelsDirectory = __dirname + '/models';
 config.viewsDirectory = __dirname + '/views';
 config.controllersDirectory = __dirname + '/controllers';

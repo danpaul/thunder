@@ -2,38 +2,53 @@
 // require/setup
 //------------------------------------------------------------------------------
 
-var config = require('../config');
+var config = require('../config'),
+	mongoose = require('mongoose'),
+	_ = require('underscore');
 
-var mongoose = require('mongoose');
-var _ = require('underscore');
 var salesRecord = require(config.salesRecordModelfile);
 var helpers = require(config.helpersFile);
 var db = config.dbURI;
-var p = console.log;
+
+var salesRecordModel = require(config.salesRecordModelfile).model;
 
 //------------------------------------------------------------------------------
 // schema
 //------------------------------------------------------------------------------
 
-var monthlyBoroughSummarySchema = mongoose.Schema
+var metaSchema = mongoose.Schema
 ({
   key: {type: String,  index: true},
   value: {type: mongoose.Schema.Types.Mixed},
 });
 
-var salesRecordModel = require(config.salesRecordModelfile).model;
+var Meta = exports.meta = mongoose.model('meta', metaSchema);
 
 exports.buildZipList = function()
 {
-	var zipList = {};
-	salesRecordModel.find({borough: 5}, function(err, records)
+	Meta.findOne({key: 'zipList'}, function(err, record)
 	{
-p(records.length)
-		_.each(records, function(record)
-		{
-		//	if(record.zipCode == '10301'){p(record.zipCode)}
-			zipList[record.zipCode] = null;		
-		});
-	//	p(zipList);
-	});
+		if(err){console.log(err)
+		}else{
+			var zipList = {};
+			var zipArray = record.value;
+			salesRecordModel.find({borough: 5}, function(err, records)
+			{
+				_.each(records, function(record)
+				{
+					zipList[record.zipCode] = null;	
+				});
+				_.each(zipList, function(value, key)
+				{
+					zipArray.push(key);
+				});
+				zipArray = _.uniq(zipArray);
+				Meta.update({key: 'zipList'}, {value: zipArray}, {upsert: true}, function(err)
+				{
+					if(err){console.log(err);}
+				});
+				
+			});
+		}
+	});	
 };
