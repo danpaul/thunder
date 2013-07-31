@@ -52,11 +52,12 @@ app.listen(3000);
 var meta = require(config.modelsDirectory).meta;
 
 //salesRecordModel = require(config.modelsDirectory).salesRecords;
-var salesRecordModel = require(config.modelsDirectory).salesRecords;
-salesRecordModel.buildCollection();
+var salesRecord = require(config.modelsDirectory).salesRecords;
+//salesRecord.buildCollection();
+//salesRecord.model.findOne(function(e,r){p(r)});
 
 //p(salesRecordModel);
-meta.buildZipList();
+//meta.buildZipList();
 
 // var m = require(config.modelsDirectory).monthlyBoroughSummaries.model;
 

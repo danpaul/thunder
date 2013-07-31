@@ -71,7 +71,7 @@ var salesRecordModel = exports.model = mongoose.model(config.salseRecordModelNam
 
 function matchQueryBuilder(record)
 {
-  return
+  return new Object
   ({
       'address': record.address,
 	  'apartmentNumber': record.apartmentNumber,
@@ -104,25 +104,23 @@ exports.buildCollection = function()
     });
 }
 
-function upsertRecord(salesRecord)
-{
-  var query = matchQueryBuilder(salesRecord);
-//p(salesRecord);
-//monthlyBoroughSummaryModel.update(query, record, {upsert: true}
-
-
-  
-
-  new salesRecordModel(salesRecord).save(function(err)
-  {
-	if(err){console.log(err)};
-  });
-
-
-  // salesRecordModel.update(query, salesRecord, {upsert: true}, function(err)
+// function upsertRecord(salesRecord)
+// {
+  // var query = matchQueryBuilder(salesRecord);
+  // new salesRecordModel(salesRecord).save(function(err)
   // {
 	// if(err){console.log(err)};
   // });
+// }
+
+function upsertRecord(record)
+{
+	var query = matchQueryBuilder(record);
+//p(query);	
+	salesRecordModel.update(query, record, {upsert: true}, function(err)
+	{
+		if(err){console.log(err);}
+	});
 }
 
 //------------------------------------------------------------------------------

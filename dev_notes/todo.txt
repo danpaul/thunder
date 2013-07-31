@@ -1,5 +1,9 @@
 Todo:
 
+maybe add last processed field to base salesrecords?
+
+change name of models (capitalize)
+
 debug sales_records save function
 
 do we need to sort results from api queries?
@@ -10,7 +14,7 @@ add nextTick to "big" csv and db processing operations
 
 get api functioning
 
-start testing!!!
+testing
 
 check if borough not found
 
