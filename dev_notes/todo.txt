@@ -1,5 +1,12 @@
 Todo:
 
+
+update neighborhood listing to hyphen separated
+
+!!!iterate boroughs in meta
+
+exports build zip list, review call to update, init. record won't exist
+
 make requests sorted
 
 validate zip codes

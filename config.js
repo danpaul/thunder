@@ -22,6 +22,7 @@ config.salesRecordsFile = __dirname + '/data/summary_staten.csv';
 
 config.key = {};
 config.key.zip = 'zipList';
+config.key.neighborhood = 'neighborhood';
 
 config.boroughs = [1, 2, 3, 4, 5];
 

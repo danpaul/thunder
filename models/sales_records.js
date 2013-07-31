@@ -61,8 +61,6 @@ var headerConversionTypes =
   saleDate: "date"
 };
 
-salesRecordSchema.methods.foo = function(){p('foo')};
-
 salesRecordSchema.methods.getEarliestRecord = function(callback)
 {
   SalesRecord.findOne({}, 'saleDate')  
@@ -151,6 +149,9 @@ function buildRecord(header, row)
     newRecord[header[i]] = typeConvert(headerConversionTypes, 
                                        header[i], 
                                        row[i]);
+	if(header[i] === 'neighborhood'){
+		newRecord[header[i]] = newRecord[header[i]].replace(/ /g, '-').replace(/\./, '');
+	}
   }
   return newRecord;
 }

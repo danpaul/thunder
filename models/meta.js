@@ -51,3 +51,44 @@ exports.buildZipList = function()
 		}
 	});	
 };
+
+// exports.buildNeighborhoodList = function()
+// {
+	// Meta.findOne({key: config.key.neighborhood}, function(err, record)
+	// {
+		// var neighborhoodArray = [];
+		// if(err){console.log(err);
+		// }else{
+			// if(record){neighborhoodArray = record}else{neighborhoodArray = []}
+		// }
+	// });
+// }
+
+exports.buildNeighborhoodList = function()
+{
+	Meta.update({key: config.key.neighborhood}, function(err, record)
+	{
+		if(err){console.log(err)
+		}else{
+			var neighborhoodList = {};
+			neighborhoodArray = record.value || [];
+			salesRecordModel.find(function(err, records)
+			{
+				_.each(records, function(record)
+				{
+					neighborhoodList[record.neighborhood] = null;	
+				});
+				_.each(neighborhoodList, function(value, key)
+				{
+					neighborhoodArray.push(key);
+				});
+				neighborhoodArray = _.uniq(neighborhoodArray);
+				Meta.update({key: config.key.neighborhood}, {value: neighborhoodArray}, {upsert: true}, function(err)
+				{
+					if(err){console.log(err);}
+				});
+p(neighborhoodArray);
+			});
+		}
+	});
+}

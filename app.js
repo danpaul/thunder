@@ -70,6 +70,20 @@ app.listen(3000);
 // Testing
 //----------------------------------------------------------------------
 
+//require(config.salesRecordModelfile).buildCollection();
+
+//p((" a b c ").trim().replace(/ /g, '-'));
+
+var monthlyNeighborhood = require(config.modelsDirectory).monthlyNeighborhoodSummaries;
+
+monthlyNeighborhood.buildMonthlyNeighborhoodSummary();
+
+//var monthlyZip = require(config.modelsDirectory + '/monthly_zip_summaries');
+
+//monthlyZip.buildMonthlyZipSummary(new Date(2000, 0, 1), new Date(2014, 9, 1));
+
+//monthlyZip.model.findOne(printRecord)
+
 //var monthlyZip = require(config.modelsDirectory + '/monthly_zip_summaries');
 
 //monthlyZip.buildMonthlyZipSummary(new Date(2000, 0, 1), new Date(2014, 9, 1));
