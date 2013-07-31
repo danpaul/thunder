@@ -1,9 +1,11 @@
-### formatting notes
+## formatting notes
 
-#### dates
+#### dates:
 All dates are formatted as YYYY-MM-DD (e.g. 2010-01-15).
 Requests for months should be for the first day of the month (e.g. 2010-01-01).
 Requests for a range of months will include the `startDate` and go up to (but not include) the `endDate`.
+
+## API documentation
 
 ### monthly zip code data
 
