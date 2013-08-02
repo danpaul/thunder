@@ -49,7 +49,6 @@ exports.buildMonthlyZipSummary = function(startDate, endDate)
 	Meta.findOne({key: config.key.zip}, function(err, record)
 	{
 		var zips = record.value;
-		
 		_.each(zips, function(zip)
 		{
 			while(dateIter.getTime() < endDate.getTime())

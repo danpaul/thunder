@@ -60,32 +60,30 @@ app.get('/api/monthly/zip/:zipCode/:startDate/:endDate.:ext', function(req, res)
 
 app.get('*', function (req, res)
 {
-  res.status(404);
-  res.send('not found');
+  res.send(404, 'not found');
 });
 
 app.listen(3000);
 
 //----------------------------------------------------------------------
-// Testing
+// db build order
 //----------------------------------------------------------------------
 
+//1
 //require(config.salesRecordModelfile).buildCollection();
 
-//p((" a b c ").trim().replace(/ /g, '-'));
+//2
+//require(config.metaModelfile).buildZipList();
 
-var monthlyNeighborhood = require(config.modelsDirectory).monthlyNeighborhoodSummaries;
-
-monthlyNeighborhood.buildMonthlyNeighborhoodSummary();
-
+//3
 //var monthlyZip = require(config.modelsDirectory + '/monthly_zip_summaries');
-
 //monthlyZip.buildMonthlyZipSummary(new Date(2000, 0, 1), new Date(2014, 9, 1));
+//monthlyZip.model.findOne(printRecord);
 
-//monthlyZip.model.findOne(printRecord)
+//4
+//var monthlyBorough = require(config.modelsDirectory + '/monthly_borough_summaries');
+//monthlyBorough.buildMonthlyBoroughSummary(new Date(2000, 0, 1), new Date(2014, 9, 1));
 
-//var monthlyZip = require(config.modelsDirectory + '/monthly_zip_summaries');
-
-//monthlyZip.buildMonthlyZipSummary(new Date(2000, 0, 1), new Date(2014, 9, 1));
-
-//monthlyZip.model.findOne(printRecord)
+//...
+//var monthlyNeighborhood = require(config.modelsDirectory).monthlyNeighborhoodSummaries;
+//monthlyNeighborhood.buildMonthlyNeighborhoodSummary();

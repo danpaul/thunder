@@ -1,5 +1,8 @@
 Todo:
 
+change name of monthlysummary collection to monthlyboroughsummary
+
+shorten method names i.e. buildMonthlyZipSummary(they're already namespaced)
 
 update neighborhood listing to hyphen separated
 

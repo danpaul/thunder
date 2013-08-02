@@ -31,7 +31,8 @@ exports.buildZipList = function()
 		if(err){console.log(err)
 		}else{
 			var zipList = {};
-			var zipArray = record.value;
+			var zipArray = [];
+			if(record){zipArray = record.value;}
 			salesRecordModel.find({borough: 5}, function(err, records)
 			{
 				_.each(records, function(record)
@@ -49,7 +50,8 @@ exports.buildZipList = function()
 				});
 			});
 		}
-	});	
+	});
+	console.log('zipList generated!')
 };
 
 // exports.buildNeighborhoodList = function()
