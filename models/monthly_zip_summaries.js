@@ -7,8 +7,8 @@ var config = require('../config');
 var mongoose = require('mongoose')
 	_ = require('underscore');
 
-var salesRecord = require(config.salesRecordModelfile);
-var Meta = require(config.metaModelfile).model;
+var salesRecord = require(config.salesRecordModelFile);
+var Meta = require(config.metaModelFile).model;
 var helpers = require(config.helpersFile);
 
 var db = config.dbURI;
@@ -27,7 +27,7 @@ var monthlyZipSummarySchema = mongoose.Schema
   medianSalePrice: Number
 });
 
-var SalesRecord = require(config.salesRecordModelfile).model;
+var SalesRecord = require(config.salesRecordModelFile).model;
 var MonthlyZip = exports.model = mongoose.model('monthlyZipSummaries', monthlyZipSummarySchema);
 
 //--------------------------------------------------------------------------------

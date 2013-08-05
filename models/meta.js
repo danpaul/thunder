@@ -4,13 +4,14 @@
 
 var config = require('../config'),
 	mongoose = require('mongoose'),
-	_ = require('underscore');
+	_ = require('underscore'),
+	async = require('async');
 
-var salesRecord = require(config.salesRecordModelfile);
+var salesRecord = require(config.salesRecordModelFile);
 var helpers = require(config.helpersFile);
 var db = config.dbURI;
 
-var salesRecordModel = require(config.salesRecordModelfile).model;
+var salesRecordModel = require(config.salesRecordModelFile).model;
 
 //------------------------------------------------------------------------------
 // schema
@@ -24,7 +25,7 @@ var metaSchema = mongoose.Schema
 
 var Meta = exports.model = mongoose.model('meta', metaSchema);
 
-exports.buildZipList = function()
+exports.buildZipList = function(callback)
 {
 	Meta.findOne({key: config.key.zip}, function(err, record)
 	{
@@ -46,13 +47,47 @@ exports.buildZipList = function()
 				zipArray = _.uniq(zipArray);
 				Meta.update({key: config.key.zip}, {value: zipArray}, {upsert: true}, function(err)
 				{
-					if(err){console.log(err);}
+					if(err){console.log(err);
+					}else{
+						callback();
+					}
 				});
 			});
 		}
 	});
-	console.log('zipList generated!')
 };
+
+
+
+// exports.buildZipList = function()
+// {
+	// Meta.findOne({key: config.key.zip}, function(err, record)
+	// {
+		// if(err){console.log(err)
+		// }else{
+			// var zipList = {};
+			// var zipArray = [];
+			// if(record){zipArray = record.value;}
+			// salesRecordModel.find({borough: 5}, function(err, records)
+			// {
+				// _.each(records, function(record)
+				// {
+					// zipList[record.zipCode] = null;	
+				// });
+				// _.each(zipList, function(value, key)
+				// {
+					// zipArray.push(key);
+				// });
+				// zipArray = _.uniq(zipArray);
+				// Meta.update({key: config.key.zip}, {value: zipArray}, {upsert: true}, function(err)
+				// {
+					// if(err){console.log(err);}
+				// });
+			// });
+		// }
+	// });
+	// console.log('zipList generated!')
+// };
 
 // exports.buildNeighborhoodList = function()
 // {

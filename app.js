@@ -1,5 +1,12 @@
-p = console.log
+var config = require('./config'),
+	express = require('express'),
+	mongoose = require('mongoose');
 
+mongoose.connect(config.dbURI);
+	//path = require('path');
+require(config.salesRecordModelfile).buildCollection();
+
+/*
 printRecord = function(e,r){if(e){p(e)}else{p(r)}};
 
 //----------------------------------------------------------------------
@@ -70,7 +77,10 @@ app.listen(3000);
 //----------------------------------------------------------------------
 
 //1
-//require(config.salesRecordModelfile).buildCollection();
+require(config.salesRecordModelfile).buildCollection();
+*/
+
+//console.log(config);
 
 //2
 //require(config.metaModelfile).buildZipList();

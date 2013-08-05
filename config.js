@@ -11,11 +11,11 @@ config.validationFile = __dirname + '/validation/request_validation.js';
 
 config.salseRecordModelName = 'salesRecord'; ////
 
-config.metaModelfile = config.modelsDirectory + '/meta';
+config.metaModelFile = config.modelsDirectory + '/meta';
 
-config.salesRecordModelfile = config.modelsDirectory + '/sales_records';
+config.salesRecordModelFile = config.modelsDirectory + '/sales_records';
 config.mothlyBoroughSummariesModelName = 'monthlySummary';
-config.monthlyZipSummaryModelfile = config.modelsDirectory + '/monthly_zip_summaries';
+config.monthlyZipSummaryModelFile = config.modelsDirectory + '/monthly_zip_summaries';
 
 config.salesRecordsFile = __dirname + '/data/summary_staten.csv';
 //config.salesRecordsFile = __dirname + '/data/short_summary.csv';
@@ -23,6 +23,9 @@ config.salesRecordsFile = __dirname + '/data/summary_staten.csv';
 config.key = {};
 config.key.zip = 'zipList';
 config.key.neighborhood = 'neighborhood';
+
+//date before first record
+config.earliestDate = new Date(2000, 0, 1);
 
 config.boroughs = [1, 2, 3, 4, 5];
 

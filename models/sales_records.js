@@ -4,7 +4,8 @@
 
 var config = require('../config'),
 	csv = require('csv'),
-	mongoose = require('mongoose');
+	mongoose = require('mongoose'),
+	async = require('async');
 
 var helpers = require(config.helpersFile);
 var db = config.dbURI;
@@ -23,7 +24,7 @@ var salesRecordSchema = mongoose.Schema
   buildingClassCategory: String,
   easement: String,
   buildingClassAtPresent: String,
-  address: String,
+  address: {type: String, index: true},
   apartmentNumber: String,
   zipCode: {type: String, index: true},
   taxClassAtTimeOfSale: String,
@@ -83,6 +84,7 @@ var SalesRecord = exports.model = mongoose.model(config.salseRecordModelName, sa
 // match query builder
 //  this is the query that will be used to determine if a given new record
 //  matches an existing record (it is schema depenedent)
+//	these should be indexed!
 //------------------------------------------------------------------------------
 
 function matchQueryBuilder(record)
@@ -99,33 +101,59 @@ function matchQueryBuilder(record)
 // build collection
 //------------------------------------------------------------------------------
 
-exports.buildCollection = function()
+// var buildCollection = exports.buildCollection = function()
+// {
+  // var arrayLength = 0,
+    // header,
+    // newRecord = {},
+    // now = Date.now;
+	
+	// console.log(csv().from(config.salesRecordsFile).to.array());
+	
+		// // .transform(function(row, index)
+		// // {
+		  // // if(index === 0)
+		  // // {
+			// // arrayLength = row.length;
+			// // header = buildHeader(row);
+		  // // }else{
+			// // newRecord = buildRecord(header, row);
+			// // upsertRecord(newRecord);
+		  // // }
+		// // })
+		// // .on('end', function(){console.log('done')});
+// }
+
+var buildCollection = exports.buildCollection = function()
 {
   var arrayLength = 0,
     header,
     newRecord = {},
     now = Date.now;
-
-  csv().from(config.salesRecordsFile)
-    .transform(function(row, index)
-    {
-      if(index === 0)
-      {
-        arrayLength = row.length;
-        header = buildHeader(row);
-      }else{
-        newRecord = buildRecord(header, row);
-		upsertRecord(newRecord);
-	  }
-    });
+	csv().from(config.salesRecordsFile)
+		.transform(function(row, index)
+		{
+		  if(index === 0)
+		  {
+//console.log(row);
+			arrayLength = row.length;
+			header = buildHeader(row);
+		  }else{
+			newRecord = buildRecord(header, row);
+			upsertRecord(newRecord);
+		  }
+		})
+		//.on('end', function(){console.log('done')});
 }
 
 function upsertRecord(record)
 {
 	var query = matchQueryBuilder(record);
-	SalesRecord.update(query, record, {upsert: true}, function(err)
+	SalesRecord.update(query, record, {upsert: true}, //, callback);
+	function(err)
 	{
-		if(err){console.log(err);}
+		if(err){console.log(err);
+		}else{;}
 	});
 }
 
@@ -172,3 +200,5 @@ function typeConvert(conversionObject, key, value){
     return value.trim().toLowerCase();
   }
 }
+//console.log(config);
+//buildCollection();
