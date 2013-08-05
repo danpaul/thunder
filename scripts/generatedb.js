@@ -58,17 +58,22 @@ console.log('salesrecord collection built');
 	//build `ziplist`
 	function(callback)
 	{
+callback();
+return;
 		meta.buildZipList(callback);
 	},
 	//build 'ziplistsummary' collection
 	function(callback)
 	{
-		
-//var monthlyZip = require(config.modelsDirectory + '/monthly_zip_summaries');
-//monthlyZip.buildMonthlyZipSummary(new Date(2000, 0, 1), new Date(2014, 9, 1));
-//monthlyZip.model.findOne(printRecord);
 console.log('ziplist generated');
-		callback();
+		//var monthlyZip = require(config.modelsDirectory + '/monthly_zip_summaries');
+		monthlyZip.buildMonthlyZipSummary(config.startDate, new Date(), callback);
+//monthlyZip.model.findOne(printRecord);
+		//callback();
+	},
+	function(callback)
+	{
+		console.log('zip summaries complete');
 	}
 ], 
 function(err)

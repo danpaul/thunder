@@ -1,5 +1,7 @@
 Todo:
 
+implement zip summaries syncronously
+
 implement async calls in db generation files
 
 create db generation scripts

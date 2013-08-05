@@ -25,7 +25,8 @@ config.key.zip = 'zipList';
 config.key.neighborhood = 'neighborhood';
 
 //date before first record
-config.earliestDate = new Date(2000, 0, 1);
+config.startDate = new Date(2000, 0, 1);
+config.concurrencyLimit = 10;
 
 config.boroughs = [1, 2, 3, 4, 5];
 
