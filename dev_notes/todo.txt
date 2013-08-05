@@ -1,5 +1,9 @@
 Todo:
 
+implement async calls in db generation files
+
+create db generation scripts
+
 change name of monthlysummary collection to monthlyboroughsummary
 
 shorten method names i.e. buildMonthlyZipSummary(they're already namespaced)
