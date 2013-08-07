@@ -75,6 +75,7 @@ console.log('ziplist generated');
 	function(callback)
 	{
 console.log('zip summaries complete');
+//callback();
 		monthlyBorough.buildMonthlyBoroughSummary(config.startDate, new Date(), callback);
 	}
 ], 

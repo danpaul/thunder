@@ -4,8 +4,10 @@
 
 var config = require('../config');
 
-var mongoose = require('mongoose');
-var _ = require('underscore');
+var mongoose = require('mongoose'),
+	_ = require('underscore'),
+	async = require('async');
+	
 var salesRecord = require(config.salesRecordModelFile);
 //config.salesRecordModelFile
 
@@ -29,8 +31,6 @@ var monthlyBoroughSummarySchema = mongoose.Schema
   medianSalePrice: Number
 });
 
-///////////////////////fix this
-//var salesRecordModel = require(config.salesRecordModelfile).createModel();
 var salesRecordModel = salesRecord.model;
 var monthlyBoroughSummaryModel = exports.model = mongoose.model('monthlyBoroughSummaries', monthlyBoroughSummarySchema);
 
@@ -40,8 +40,7 @@ var monthlyBoroughSummaryModel = exports.model = mongoose.model('monthlyBoroughS
 //this will generate monthly summaries from startDate up to but not including end
 //date. The day of each date should be (or will be converted to) the first day
 //of the month and midnight.
-//
-exports.buildMonthlyBoroughSummary = function(startDate, endDate)
+exports.buildMonthlyBoroughSummary = function(startDate, endDate, callback)
 {
 	startDate.setDate(1);
 	startDate.setHours(0,0,0,0);
@@ -50,25 +49,18 @@ exports.buildMonthlyBoroughSummary = function(startDate, endDate)
 	
 	var dateIter = new Date(startDate.getTime());
 	var dateArray = helpers.buildDateArray(startDate, endDate);
-	
-	_.each(config.boroughs, function(element, index, list)
+
+	async.forEachSeries(config.boroughs, function(borough, callback)
 	{
-		// while(dateIter.getTime() < endDate.getTime())
-		// {
-			// // buildMonthSummary(dateIter, endDate, element);
-			// // if(dateIter.getMonth == 11)
-			// // {
-				// // dateIter.setMonth(1);
-				// // sdateIter.setYear(dateIter.getYear() + 1);
-			// // }else{
-				// // dateIter.setMonth(dateIter.getMonth() + 1);
-			// // }
-		// }
-		// dateIter = new Date(startDate.getTime());
-	});
+		async.forEachLimit(dateArray, config.concurrencyLimit, function(date, callback)
+		{
+			buildMonthSummary(new Date(date), helpers.getNextMonth(new Date(date)), borough, callback);	
+		}, function(){callback()})
+	
+	}, function(){callback()});
 };
 
-function buildMonthSummary(startDate, endDate, borough)
+function buildMonthSummary(startDate, endDate, borough, callback)
 {
 	salesRecordModel
 		.find(
@@ -76,10 +68,27 @@ function buildMonthSummary(startDate, endDate, borough)
 			saleDate: {$gte: startDate.getTime(), $lt: endDate.getTime()},
 			borough: borough
 		})
-		.exec(buildCallback(startDate.getTime(), borough));
+		.exec(buildCallback(startDate.getTime(), borough, callback));
 }
 
-function saveRecords(startDate, borough, records)
+function buildCallback(startDateIn, boroughIn, callback)
+{
+	return function(err, records)
+	{
+		if(err){console.log(err); callback();}
+		else
+		{
+			if(!(records.length === 0))
+			{
+				var startDate = new Date(startDateIn);
+				var borough = boroughIn;
+				saveRecords(startDate, borough, records, callback);
+			}else{callback();}
+		}
+	}
+}
+
+function saveRecords(startDate, borough, records, callback)
 {
 	var saleSum = 0.0;
 	var totalSales = 0.0;
@@ -98,27 +107,10 @@ function saveRecords(startDate, borough, records)
 		salesSum: saleSum,
 		totalSales: totalSales,
 		averageSalePrice: saleSum/totalSales
-	});
+	}, callback);
 }
 
-function buildCallback(startDateIn, boroughIn)
-{
-	return function(err, records)
-	{
-		if(err){console.log(err);}
-		else
-		{
-			if(!(records.length === 0))
-			{
-				var startDate = new Date(startDateIn);
-				var borough = boroughIn;
-				saveRecords(startDate, borough, records);
-			}
-		}
-	}
-}
-
-function upsertRecord(record)
+function upsertRecord(record, callback)
 {
 	var query =
 	{
@@ -128,7 +120,8 @@ function upsertRecord(record)
 	
 	monthlyBoroughSummaryModel.update(query, record, {upsert: true}, function(err)
 	{
-		if(err){console.log(err);}
+		if(err){console.log(err); callback();
+		}else{callback();}
 	});
 }
 

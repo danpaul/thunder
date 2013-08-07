@@ -46,14 +46,7 @@ exports.buildMonthlyZipSummary = function(startDate, endDate, callback)
 	endDate.setHours(0,0,0,0);
 
 	var dateIter = new Date(startDate.getTime());
-	dateArray = [];
-
-	//build an array of start dates ranging from `startDate` to `endDate`
-	while(dateIter.getTime() < endDate.getTime())
-	{
-		dateIter = getNextMonth(dateIter);
-		dateArray.push(dateIter.getTime());
-	}
+	dateArray = helpers.buildDateArray(startDate, endDate);
 	Meta.findOne({key: config.key.zip}, function(err, record)
 	{
 		if(err){console.log(err); callback();
@@ -63,7 +56,7 @@ exports.buildMonthlyZipSummary = function(startDate, endDate, callback)
 			{
 				async.forEachLimit(dateArray, config.concurrencyLimit, function(date, callback)
 				{
-					buildMonthSummary(new Date(date), getNextMonth(new Date(date)), zip, callback);			
+					buildMonthSummary(new Date(date), helpers.getNextMonth(new Date(date)), zip, callback);		
 				}, function(){callback()});
 			}, function(){console.log('done'); callback()});
 		}
@@ -135,28 +128,4 @@ function upsertRecord(record, callback)
 			callback();
 		}
 	});
-}
-
-//------------------------------------------------------------------------------
-// Helpers
-
-function getNextMonth(date)
-{
-	var newDate = new Date(date.getTime());
-	if(newDate.getMonth == 11)
-	{
-		newDate.setMonth(0);
-		newDate.setYear(newDate.getYear() + 1);
-	}else{
-		newDate.setMonth(newDate.getMonth() + 1);
-	}
-	return newDate;
-}
-
-//------------------------------------------------------------------------------
-// Debugging
-
-function printRecords()
-{
-	monthlyBoroughSummaryModel.find(function(err, records){console.log(records)});
 }

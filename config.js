@@ -14,7 +14,6 @@ config.salseRecordModelName = 'salesRecord'; ////
 config.metaModelFile = config.modelsDirectory + '/meta';
 
 config.salesRecordModelFile = config.modelsDirectory + '/sales_records';
-
 config.monthlyZipSummaryModelFile = config.modelsDirectory + '/monthly_zip_summaries';
 config.monthlyBoroughSummaryModelFile = config.modelsDirectory + '/monthly_borough_summaries';
 
