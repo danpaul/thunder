@@ -20,7 +20,7 @@ var salesRecordSchema = mongoose.Schema
 ({
 //From imported data file:
 //String
-  neighborhood: String,
+  neighborhood: {type: String, index: true},
   buildingClassCategory: String,
   easement: String,
   buildingClassAtPresent: String,

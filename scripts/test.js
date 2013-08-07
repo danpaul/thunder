@@ -9,4 +9,4 @@ var meta = require(config.metaModelFile);
 var monthlyZip = require(config.monthlyZipSummaryModelFile);
 var monthlyBorough = require(config.monthlyBoroughSummaryModelFile);
 
-meta.buildZipList(function(){console.log('done')});
+meta.buildNeighborhoodList(function(){console.log('done')});

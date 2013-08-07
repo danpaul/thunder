@@ -25,11 +25,13 @@ var metaSchema = mongoose.Schema
 
 var Meta = exports.model = mongoose.model('meta', metaSchema);
 
+//remove else block and test
+//add upsert to update
 exports.buildZipList = function(callback)
 {
 	Meta.findOne({key: config.key.zip}, function(err, record)
 	{
-		if(err){console.log(err)
+		if(err){console.log(err); callback();
 		}else{
 			var zipList = {};
 			var zipArray = [];
@@ -46,31 +48,14 @@ exports.buildZipList = function(callback)
 	});
 };
 
-exports.buildNeighborhoodList = function()
+exports.buildNeighborhoodList = function(callback)
 {
-	Meta.update({key: config.key.neighborhood}, function(err, record)
+	salesRecordModel.find().distinct('neighborhood', function(err, records)
 	{
-		if(err){console.log(err)
-		}else{
-			var neighborhoodList = {};
-			neighborhoodArray = record.value || [];
-			salesRecordModel.find(function(err, records)
-			{
-				_.each(records, function(record)
-				{
-					neighborhoodList[record.neighborhood] = null;	
-				});
-				_.each(neighborhoodList, function(value, key)
-				{
-					neighborhoodArray.push(key);
-				});
-				neighborhoodArray = _.uniq(neighborhoodArray);
-				Meta.update({key: config.key.neighborhood}, {value: neighborhoodArray}, {upsert: true}, function(err)
-				{
-					if(err){console.log(err);}
-				});
-p(neighborhoodArray);
-			});
-		}
+		Meta.update({key: config.key.neighborhood}, {value: records}, {upsert: true}, function(err)
+		{
+			if(err){console.log(err); callback();
+			}else{callback();}
+		});
 	});
-}
+};
