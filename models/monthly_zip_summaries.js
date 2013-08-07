@@ -56,7 +56,7 @@ exports.buildMonthlyZipSummary = function(startDate, endDate, callback)
 	}
 	Meta.findOne({key: config.key.zip}, function(err, record)
 	{
-		if(err){console.log(err)
+		if(err){console.log(err); callback();
 		}else{
 			var zips = record.value;
 			async.forEachSeries(zips, function(zip, callback)
