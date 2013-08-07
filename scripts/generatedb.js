@@ -28,8 +28,6 @@ async.series(
 	//wait until `sailssrecord` collection is finished building
 	function(callback)
 	{
-callback();
-return;
 		var buildInfo = {};
 		buildInfo.recordCount = 0;
 		buildInfo.firstCheck = true;
@@ -38,7 +36,6 @@ return;
 			{
 				if(err){console.log(err)
 				}else{
-console.log(record);
 					if(buildInfo.recordCount === record)
 					{
 console.log('salesrecord collection built');
@@ -59,15 +56,11 @@ console.log('salesrecord collection built');
 	//build `ziplist`
 	function(callback)
 	{
-callback();
-return;
 		meta.buildZipList(callback);
 	},
 	//build 'ziplistsummary' collection
 	function(callback)
 	{
-callback();
-return;
 console.log('ziplist generated');
 		monthlyZip.buildMonthlyZipSummary(config.startDate, new Date(), callback);
 	},
@@ -75,7 +68,6 @@ console.log('ziplist generated');
 	function(callback)
 	{
 console.log('zip summaries complete');
-//callback();
 		monthlyBorough.buildMonthlyBoroughSummary(config.startDate, new Date(), callback);
 	}
 ], 
