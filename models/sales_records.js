@@ -101,6 +101,27 @@ function matchQueryBuilder(record)
 // build collection
 //------------------------------------------------------------------------------
 
+var buildCollection_2 = exports.buildCollection_2 = function(file, callback)
+{
+  var arrayLength = 0,
+    header,
+    newRecord = {},
+    now = Date.now;
+	csv().from(config.salesRecordsFile)
+		.transform(function(row, index)
+		{
+		  if(index === 0)
+		  {
+			arrayLength = row.length;
+			header = buildHeader(row);
+		  }else{
+			newRecord = buildRecord(header, row);
+			upsertRecord(newRecord);
+		  }
+		})
+}
+
+
 var buildCollection = exports.buildCollection = function()
 {
   var arrayLength = 0,
@@ -112,7 +133,6 @@ var buildCollection = exports.buildCollection = function()
 		{
 		  if(index === 0)
 		  {
-//console.log(row);
 			arrayLength = row.length;
 			header = buildHeader(row);
 		  }else{
@@ -120,7 +140,6 @@ var buildCollection = exports.buildCollection = function()
 			upsertRecord(newRecord);
 		  }
 		})
-		//.on('end', function(){console.log('done')});
 }
 
 function upsertRecord(record)
@@ -177,5 +196,3 @@ function typeConvert(conversionObject, key, value){
     return value.trim().toLowerCase();
   }
 }
-//console.log(config);
-//buildCollection();

@@ -15,7 +15,6 @@ var salesRecord = require(config.salesRecordModelFile);
 var meta = require(config.metaModelFile);
 var monthlyZip = require(config.monthlyZipSummaryModelFile);
 var monthlyBorough = require(config.monthlyBoroughSummaryModelFile);
-	
 
 async.series(
 [
