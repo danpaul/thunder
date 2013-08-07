@@ -71,13 +71,11 @@ return;
 console.log('ziplist generated');
 		monthlyZip.buildMonthlyZipSummary(config.startDate, new Date(), callback);
 	},
+	//build monthly borough summary
 	function(callback)
 	{
 console.log('zip summaries complete');
-
-//monthlyBorough.buildMonthlyBoroughSummary(new Date(2000, 0, 1), new Date(2014, 9, 1));
-
-
+		monthlyBorough.buildMonthlyBoroughSummary(config.startDate, new Date(), callback);
 	}
 ], 
 function(err)

@@ -32,7 +32,7 @@ var monthlyBoroughSummarySchema = mongoose.Schema
 ///////////////////////fix this
 //var salesRecordModel = require(config.salesRecordModelfile).createModel();
 var salesRecordModel = salesRecord.model;
-var monthlyBoroughSummaryModel = exports.model = mongoose.model(config.mothlyBoroughSummariesModelName, monthlyBoroughSummarySchema);
+var monthlyBoroughSummaryModel = exports.model = mongoose.model('monthlyBoroughSummaries', monthlyBoroughSummarySchema);
 
 //--------------------------------------------------------------------------------
 // Database construction/updating
@@ -49,21 +49,22 @@ exports.buildMonthlyBoroughSummary = function(startDate, endDate)
 	endDate.setHours(0,0,0,0);
 	
 	var dateIter = new Date(startDate.getTime());
+	var dateArray = helpers.buildDateArray(startDate, endDate);
 	
 	_.each(config.boroughs, function(element, index, list)
 	{
-		while(dateIter.getTime() < endDate.getTime())
-		{
-			buildMonthSummary(dateIter, endDate, element);
-			if(dateIter.getMonth == 11)
-			{
-				dateIter.setMonth(1);
-				sdateIter.setYear(dateIter.getYear() + 1);
-			}else{
-				dateIter.setMonth(dateIter.getMonth() + 1);
-			}
-		}
-		dateIter = new Date(startDate.getTime());
+		// while(dateIter.getTime() < endDate.getTime())
+		// {
+			// // buildMonthSummary(dateIter, endDate, element);
+			// // if(dateIter.getMonth == 11)
+			// // {
+				// // dateIter.setMonth(1);
+				// // sdateIter.setYear(dateIter.getYear() + 1);
+			// // }else{
+				// // dateIter.setMonth(dateIter.getMonth() + 1);
+			// // }
+		// }
+		// dateIter = new Date(startDate.getTime());
 	});
 };
 
