@@ -32,6 +32,9 @@ config.concurrencyLimit = 10;
 
 config.boroughs = [1, 2, 3, 4, 5];
 
+//time to wait for mongo to check if mongo is still saving records
+config.dbBuildTimeout = 10000;
+
 config.internalServerError = 'The server encountered an unexpected condition which prevented it from fulfilling the request.';
 
 //ensure no dependencies than remove

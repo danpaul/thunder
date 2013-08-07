@@ -103,7 +103,7 @@ function matchQueryBuilder(record)
 
 var buildCollection_2 = exports.buildCollection_2 = function(file, callback)
 {
-console.log(file);
+//console.log(file);
   var arrayLength = 0,
     header,
     newRecord = {},
