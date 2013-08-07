@@ -1,5 +1,9 @@
 Todo:
 
+perform data sanitation
+	confirm header rows are consistent
+	go over each row and define acceptable values
+
 implement zip summaries syncronously
 
 implement async calls in db generation files

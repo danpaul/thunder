@@ -5,3 +5,7 @@ Mongoose
 project structure
 
 	example: https://github.com/madhums/node-express-mongoose-demo
+	
+node forever: https://github.com/nodejitsu/forever
+
+example url: http://192.241.219.244/api/monthly/zip/11226/2011-01-01/2012-01-01.json
