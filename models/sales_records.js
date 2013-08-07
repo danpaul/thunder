@@ -101,29 +101,6 @@ function matchQueryBuilder(record)
 // build collection
 //------------------------------------------------------------------------------
 
-// var buildCollection = exports.buildCollection = function()
-// {
-  // var arrayLength = 0,
-    // header,
-    // newRecord = {},
-    // now = Date.now;
-	
-	// console.log(csv().from(config.salesRecordsFile).to.array());
-	
-		// // .transform(function(row, index)
-		// // {
-		  // // if(index === 0)
-		  // // {
-			// // arrayLength = row.length;
-			// // header = buildHeader(row);
-		  // // }else{
-			// // newRecord = buildRecord(header, row);
-			// // upsertRecord(newRecord);
-		  // // }
-		// // })
-		// // .on('end', function(){console.log('done')});
-// }
-
 var buildCollection = exports.buildCollection = function()
 {
   var arrayLength = 0,
