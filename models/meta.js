@@ -31,15 +31,9 @@ exports.buildZipList = function(callback)
 {
 	Meta.findOne({key: config.key.zip}, function(err, record)
 	{
-		if(err){console.log(err); callback();
-		}else{
-			var zipList = {};
-			var zipArray = [];
-			if(record){zipArray = record.value;}
-		}
 		salesRecordModel.find().distinct('zipCode', function(err, records)
 		{
-			Meta.update({key: config.key.zip}, {value: records}, function(err)
+			Meta.update({key: config.key.zip}, {value: records}, {upsert: true}, function(err)
 			{
 				if(err){console.log(err); callback();
 				}else{callback();}
