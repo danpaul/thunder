@@ -1,18 +1,11 @@
+//----------------------------------------------------------------------
+// Require
+
 var config = require('./config'),
 	express = require('express'),
 	mongoose = require('mongoose');
 
 mongoose.connect(config.dbURI);
-	//path = require('path');
-require(config.salesRecordModelfile).buildCollection();
-
-
-/*
-printRecord = function(e,r){if(e){p(e)}else{p(r)}};
-
-//----------------------------------------------------------------------
-// Require
-//----------------------------------------------------------------------
 
 var config = require('./config'),
 	express = require('express'),
@@ -22,10 +15,9 @@ var config = require('./config'),
 var helpers = require(config.helpersFile);
 var validate = require(config.validationFile);
 var controller = require(config.controllersDirectory);
-	
-mongoose.connect(config.dbURI);
 
 //----------------------------------------------------------------------
+// App
 
 var app = express();
 app.use(express.bodyParser());
@@ -72,29 +64,3 @@ app.get('*', function (req, res)
 });
 
 app.listen(3000);
-
-//----------------------------------------------------------------------
-// db build order
-//----------------------------------------------------------------------
-
-//1
-require(config.salesRecordModelfile).buildCollection();
-*/
-
-//console.log(config);
-
-//2
-//require(config.metaModelfile).buildZipList();
-
-//3
-//var monthlyZip = require(config.modelsDirectory + '/monthly_zip_summaries');
-//monthlyZip.buildMonthlyZipSummary(new Date(2000, 0, 1), new Date(2014, 9, 1));
-//monthlyZip.model.findOne(printRecord);
-
-//4
-//var monthlyBorough = require(config.modelsDirectory + '/monthly_borough_summaries');
-//monthlyBorough.buildMonthlyBoroughSummary(new Date(2000, 0, 1), new Date(2014, 9, 1));
-
-//...
-//var monthlyNeighborhood = require(config.modelsDirectory).monthlyNeighborhoodSummaries;
-//monthlyNeighborhood.buildMonthlyNeighborhoodSummary();

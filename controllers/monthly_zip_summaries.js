@@ -2,7 +2,7 @@ var _ = require('underscore');
 
 var config = require('../config');
 
-var MonthlyZip = require(config.monthlyZipSummaryModelfile).model;
+var MonthlyZip = require(config.monthlyZipSummaryModelFile).model;
 
 exports.get = function(req, res, params)
 {
