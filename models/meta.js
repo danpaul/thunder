@@ -34,72 +34,17 @@ exports.buildZipList = function(callback)
 			var zipList = {};
 			var zipArray = [];
 			if(record){zipArray = record.value;}
-			salesRecordModel.find({borough: 5}, function(err, records)
-			{
-				_.each(records, function(record)
-				{
-					zipList[record.zipCode] = null;	
-				});
-				_.each(zipList, function(value, key)
-				{
-					zipArray.push(key);
-				});
-				zipArray = _.uniq(zipArray);
-				Meta.update({key: config.key.zip}, {value: zipArray}, {upsert: true}, function(err)
-				{
-					if(err){console.log(err);
-					}else{
-						callback();
-					}
-				});
-			});
 		}
+		salesRecordModel.find().distinct('zipCode', function(err, records)
+		{
+			Meta.update({key: config.key.zip}, {value: records}, function(err)
+			{
+				if(err){console.log(err); callback();
+				}else{callback();}
+			});
+		});
 	});
 };
-
-
-
-// exports.buildZipList = function()
-// {
-	// Meta.findOne({key: config.key.zip}, function(err, record)
-	// {
-		// if(err){console.log(err)
-		// }else{
-			// var zipList = {};
-			// var zipArray = [];
-			// if(record){zipArray = record.value;}
-			// salesRecordModel.find({borough: 5}, function(err, records)
-			// {
-				// _.each(records, function(record)
-				// {
-					// zipList[record.zipCode] = null;	
-				// });
-				// _.each(zipList, function(value, key)
-				// {
-					// zipArray.push(key);
-				// });
-				// zipArray = _.uniq(zipArray);
-				// Meta.update({key: config.key.zip}, {value: zipArray}, {upsert: true}, function(err)
-				// {
-					// if(err){console.log(err);}
-				// });
-			// });
-		// }
-	// });
-	// console.log('zipList generated!')
-// };
-
-// exports.buildNeighborhoodList = function()
-// {
-	// Meta.findOne({key: config.key.neighborhood}, function(err, record)
-	// {
-		// var neighborhoodArray = [];
-		// if(err){console.log(err);
-		// }else{
-			// if(record){neighborhoodArray = record}else{neighborhoodArray = []}
-		// }
-	// });
-// }
 
 exports.buildNeighborhoodList = function()
 {
