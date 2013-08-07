@@ -6,7 +6,8 @@ var config = require('../config');
 
 var mongoose = require('mongoose');
 var _ = require('underscore');
-var salesRecord = require(config.salesRecordModelfile);
+var salesRecord = require(config.salesRecordModelFile);
+//config.salesRecordModelFile
 
 var helpers = require(config.helpersFile);
 
@@ -30,7 +31,7 @@ var monthlyBoroughSummarySchema = mongoose.Schema
 
 ///////////////////////fix this
 //var salesRecordModel = require(config.salesRecordModelfile).createModel();
-var salesRecordModel = require(config.salesRecordModelfile).model;
+var salesRecordModel = salesRecord.model;
 var monthlyBoroughSummaryModel = exports.model = mongoose.model(config.mothlyBoroughSummariesModelName, monthlyBoroughSummarySchema);
 
 //--------------------------------------------------------------------------------

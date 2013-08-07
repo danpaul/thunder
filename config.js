@@ -14,8 +14,9 @@ config.salseRecordModelName = 'salesRecord'; ////
 config.metaModelFile = config.modelsDirectory + '/meta';
 
 config.salesRecordModelFile = config.modelsDirectory + '/sales_records';
-config.mothlyBoroughSummariesModelName = 'monthlySummary';
+
 config.monthlyZipSummaryModelFile = config.modelsDirectory + '/monthly_zip_summaries';
+config.monthlyBoroughSummaryModelFile = config.modelsDirectory + '/monthly_borough_summaries';
 
 config.salesRecordsFile = __dirname + '/data/summary_staten.csv';
 //config.salesRecordsFile = __dirname + '/data/short_summary.csv';
@@ -31,5 +32,9 @@ config.concurrencyLimit = 10;
 config.boroughs = [1, 2, 3, 4, 5];
 
 config.internalServerError = 'The server encountered an unexpected condition which prevented it from fulfilling the request.';
+
+//ensure no dependencies than remove
+config.mothlyBoroughSummariesModelName = 'monthlySummary';
+
 
 module.exports = config;

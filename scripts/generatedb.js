@@ -14,6 +14,7 @@ mongoose.connect(config.dbURI);
 var salesRecord = require(config.salesRecordModelFile);
 var meta = require(config.metaModelFile);
 var monthlyZip = require(config.monthlyZipSummaryModelFile);
+var monthlyBorough = require(config.monthlyBoroughSummaryModelFile);
 	
 
 async.series(
@@ -65,15 +66,18 @@ return;
 	//build 'ziplistsummary' collection
 	function(callback)
 	{
+callback();
+return;
 console.log('ziplist generated');
-		//var monthlyZip = require(config.modelsDirectory + '/monthly_zip_summaries');
 		monthlyZip.buildMonthlyZipSummary(config.startDate, new Date(), callback);
-//monthlyZip.model.findOne(printRecord);
-		//callback();
 	},
 	function(callback)
 	{
-		console.log('zip summaries complete');
+console.log('zip summaries complete');
+
+//monthlyBorough.buildMonthlyBoroughSummary(new Date(2000, 0, 1), new Date(2014, 9, 1));
+
+
 	}
 ], 
 function(err)
