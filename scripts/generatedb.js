@@ -2,9 +2,6 @@
 // db build order
 //----------------------------------------------------------------------
 
-//time to wait to see if the salesrecord db is done generating
-//var TIMEOUT_DELAY = 10000;
-
 var config = require('../config');
 	async = require('async'),
 	mongoose = require('mongoose'),
@@ -39,11 +36,9 @@ async.series(
 						}else{
 							if(buildInfo.recordCount === record)
 							{
-//console.log('salesrecord collection built');
 								callback();
 							}else{
 								buildInfo.recordCount = record;
-//console.log(buildInfo.recordCount);
 								takeTimeout();
 							}
 						}
@@ -58,41 +53,6 @@ async.series(
 			buildFromFile(file, callback);
 		},function(){console.log('base records complete'); callback();});
 	},
-	// //initiate build of `salesrecord` collection
-	// function(callback)
-	// {
-		// salesRecord.buildCollection();
-		// callback();
-	// },
-	// //wait until `sailssrecord` collection is finished building
-	// function(callback)
-	// {
-		// var buildInfo = {};
-		// buildInfo.recordCount = 0;
-		// buildInfo.firstCheck = true;
-		// var buildCheck = function(){
-			// salesRecord.model.count({}, function(err, record)
-			// {
-				// if(err){console.log(err)
-				// }else{
-					// if(buildInfo.recordCount === record)
-					// {
-// console.log('salesrecord collection built');
-						// callback();
-					// }else{
-						// buildInfo.recordCount = record;
-						// takeTimeout();
-					// }
-				// }
-			// });		
-		// }
-		// function takeTimeout()
-		// {
-			// setTimeout(buildCheck, TIMEOUT_DELAY);
-		// }
-		// takeTimeout();
-	// },
-	//build `ziplist`
 	function(callback)
 	{
 		meta.buildZipList(callback);
@@ -117,8 +77,6 @@ function(err)
 		console.log("db build complete!")
 	}
 })
-	
-
 
 //1
 //require(config.salesRecordModelfile).buildCollection();
