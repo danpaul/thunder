@@ -7,8 +7,6 @@ mongoose.connect(config.dbURI);
 require(config.salesRecordModelfile).buildCollection();
 
 
-
-
 /*
 printRecord = function(e,r){if(e){p(e)}else{p(r)}};
 

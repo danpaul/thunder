@@ -103,11 +103,12 @@ function matchQueryBuilder(record)
 
 var buildCollection_2 = exports.buildCollection_2 = function(file, callback)
 {
+console.log(file);
   var arrayLength = 0,
     header,
     newRecord = {},
     now = Date.now;
-	csv().from(config.salesRecordsFile)
+	csv().from(file)
 		.transform(function(row, index)
 		{
 		  if(index === 0)
@@ -119,6 +120,7 @@ var buildCollection_2 = exports.buildCollection_2 = function(file, callback)
 			upsertRecord(newRecord);
 		  }
 		})
+	callback();
 }
 
 
