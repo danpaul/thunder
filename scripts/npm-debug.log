@@ -1,0 +1,19 @@
+3018 error Error: ENOENT, lstat 'C:\cygwin64\home\thunder\node_modules\forever\node_modules\optimist\test\parse.js'
+3019 error If you need help, you may report this log at:
+3019 error     <http://github.com/isaacs/npm/issues>
+3019 error or email it to:
+3019 error     <npm-@googlegroups.com>
+3020 error System Windows_NT 6.1.7601
+3021 error command "C:\\Program Files (x86)\\nodejs\\node.exe" "C:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install"
+3022 error cwd C:\cygwin64\home\thunder\scripts
+3023 error node -v v0.10.13
+3024 error npm -v 1.3.2
+3025 error path C:\cygwin64\home\thunder\node_modules\forever\node_modules\optimist\test\parse.js
+3026 error fstream_path C:\cygwin64\home\thunder\node_modules\forever\node_modules\optimist\test\parse.js
+3027 error fstream_type File
+3028 error fstream_class FileWriter
+3029 error code ENOENT
+3030 error errno 34
+3031 error fstream_stack C:\Program Files (x86)\nodejs\node_modules\npm\node_modules\fstream\lib\writer.js:284:26
+3031 error fstream_stack Object.oncomplete (fs.js:107:15)
+3032 verbose exit [ 34, true ]
