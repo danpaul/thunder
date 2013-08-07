@@ -65,10 +65,10 @@ exports.buildMonthlyZipSummary = function(startDate, endDate, callback)
 				async.forEachLimit(dateArray, config.concurrencyLimit, function(date, callback)
 				{
 					buildMonthSummary(new Date(date), getNextMonth(new Date(date)), zip, callback);			
-				});
-				callback();
-			});
-			callback();
+				}, function(){callback()});
+				//callback();
+			}, function(){console.log('done'); callback()});
+			//callback();
 		}
 		//callback();
 	});
@@ -138,7 +138,6 @@ function upsertRecord(record, callback)
 		'date': record.date,
 		'zipCode': record.zipCode
 	};
-//p(record);
 	MonthlyZip.update(query, record, {upsert: true}, function(err)
 	{
 		if(err){console.log(err);
