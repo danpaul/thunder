@@ -20,16 +20,4 @@ var monthlyNeighborhood = require(config.monthlyNeighborhoodSummaryModelFile);
 var files = fs.readdirSync(config.dataDirectory);
 var TIMEOUT_DELAY = 10000;
 
-meta.model.find({key: 'neighborhood'}, function(e,r){console.log(r)});
-
-//1
-//meta.buildNeighborhoodList(function(){console.log('done')});
-
-//testing
-//meta.model.find({key: config.key.neighborhood}, function(err, record){console.log(record)});
-
-//2
-//monthlyNeighborhood.buildMonthlyNeighborhoodSummary(config.startDate, new Date(), function(){console.log('done')});
-
-//testing
-//monthlyNeighborhood.model.findOne(function(e,r){console.log(r);});
+//meta.model.find({key: 'neighborhood'}, function(e,r){console.log(r)});
