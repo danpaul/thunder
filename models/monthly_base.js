@@ -17,7 +17,7 @@ var db = config.dbURI;
 //--------------------------------------------------------------------------------
 //
 
-function buildRecord(startDate, key, value, records, callback)
+var buildRecord = exports.buildRecord = function(records, startDate, key, value)
 {
 	var saleSum = 0.0;
 	var totalSales = 0.0;

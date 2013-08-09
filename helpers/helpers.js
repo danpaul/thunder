@@ -17,6 +17,17 @@ exports.getMedian = function(dataArray)
 	}
 }
 
+exports.getAverage = function(dataArray)
+{
+	var sum = 0.0;
+	_.each(dataArray, function(value)
+	{
+		sum += value;
+	});
+	if(sum === 0){return sum;}
+	return(sum/dataArray.length);
+}
+
 exports.sanitizeNumberString = function(inputString)
 {
 	return parseFloat(inputString.replace(/[^\d.-]/g, ''));
@@ -51,4 +62,11 @@ var getNextMonth = exports.getNextMonth = function(date)
 		newDate.setMonth(newDate.getMonth() + 1);
 	}
 	return newDate;
+}
+
+exports.zeroDate = function(dateIn)
+{
+	dateIn.setDate(1);
+	dateIn.setHours(0,0,0,0);
+	return dateIn;
 }

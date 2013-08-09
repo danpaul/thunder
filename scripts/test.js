@@ -20,4 +20,8 @@ var monthlyNeighborhood = require(config.monthlyNeighborhoodSummaryModelFile);
 var files = fs.readdirSync(config.dataDirectory);
 var TIMEOUT_DELAY = 10000;
 
+var zip_test = require('../models/monthly_zip_summaries_02');
+
+zip_test.buildMonthlyZipSummary(config.startDate, new Date(Date.now()), function(e,r){console.log('done')});
+
 //meta.model.find({key: 'neighborhood'}, function(e,r){console.log(r)});

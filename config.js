@@ -1,8 +1,9 @@
 var config = {};
 
-config.dbURI = 'mongodb://localhost:27017/thunder';
+//config.dbURI = 'mongodb://localhost:27017/thunder';
+config.dbURI = 'mongodb://localhost:27017/thunder_test';
 
-config.dataDirectory = __dirname + '/data';
+config.dataDirectory = __dirname + '/data_02';
 
 config.modelsDirectory = __dirname + '/models';
 config.viewsDirectory = __dirname + '/views';
@@ -15,10 +16,13 @@ config.salseRecordModelName = 'salesRecord'; ////
 
 config.metaModelFile = config.modelsDirectory + '/meta';
 
+config.monthlyModelBaseFile = config.modelsDirectory + '/monthly_base';
 config.salesRecordModelFile = config.modelsDirectory + '/sales_records';
 config.monthlyZipSummaryModelFile = config.modelsDirectory + '/monthly_zip_summaries';
 config.monthlyBoroughSummaryModelFile = config.modelsDirectory + '/monthly_borough_summaries';
 config.monthlyNeighborhoodSummaryModelFile = config.modelsDirectory + '/monthly_neighborhood_summaries';
+
+
 
 config.salesRecordsFile = __dirname + '/data/summary_staten.csv';
 //config.salesRecordsFile = __dirname + '/data/short_summary.csv';
