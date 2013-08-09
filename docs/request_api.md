@@ -80,6 +80,7 @@ A sorted array of JSON objects from least to most recent. Each object has the fo
 
 #### valid neighborhoods:
 
+<pre>
 	'airport-la-guardia',
 	'alphabet-city',
 	'annadale',
@@ -326,3 +327,4 @@ A sorted array of JSON objects from least to most recent. Each object has the fo
 	'woodrow',
 	'woodside',
 	'wyckoff-heights'
+</pre>
