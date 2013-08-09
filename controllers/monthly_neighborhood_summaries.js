@@ -5,7 +5,7 @@ var MonthlyNeighborhood = require(config.monthlyNeighborhoodSummaryModelFile).mo
 
 exports.get = function(req, res, params)
 {
-	MonthlyZip.find
+	MonthlyNeighborhood.find
 	({
 		date:{$gte: params.startDate, $lt: params.endDate},
 		neighborhood: params.neighborhood

@@ -20,6 +20,7 @@ var monthlyNeighborhood = require(config.monthlyNeighborhoodSummaryModelFile);
 var files = fs.readdirSync(config.dataDirectory);
 var TIMEOUT_DELAY = 10000;
 
+meta.model.find({key: 'neighborhood'}, function(e,r){console.log(r)});
 
 //1
 //meta.buildNeighborhoodList(function(){console.log('done')});

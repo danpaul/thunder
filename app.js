@@ -71,7 +71,7 @@ app.get('/api/monthly/neighborhood/:neighborhood/:startDate/:endDate.:ext', func
 	var validation = validate.validateParams(requestParams);
 	if(validation === true)
 	{
-		controller.monthlyZipSummaries.get(req, res, requestParams);
+		controller.monthlyNeighborhoodSummaries.get(req, res, requestParams);
 	}else{
 		res.send(400, validation);		
 	}
