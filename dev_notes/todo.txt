@@ -1,5 +1,11 @@
 Todo:
 
+work on price/sq ft totals
+
+build valid neighborhood list and work on consolidating neighborhoods
+
+validate neighborhoods or just santize and return empty array?
+
 look at query notes
 
 monthly neighborhood scripts

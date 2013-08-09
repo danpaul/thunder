@@ -18,16 +18,6 @@ var db = config.dbURI;
 // schema
 //------------------------------------------------------------------------------
 
-// var monthlyZipSummarySchema = mongoose.Schema
-// ({
-  // zip: {type: String, index: true},
-  // date: {type: Date, index: true},
-  // totalSales: Number,
-  // salesSum: Number,
-  // averageSalePrice: Number,
-  // medianSalePrice: Number
-// });
-
 var monthlyNeighborhoodSummarySchema = mongoose.Schema
 ({
   neighborhood: {type: String, index: true},

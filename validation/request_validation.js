@@ -30,7 +30,7 @@ exports.validateParams = function(requestParameters, callback)
 	//check properties in requestParameters
 	_.each(requestParameters, function(value, key)
 	{
-		if(value === false)
+		if(value === false || value === undefined)
 		{
 			valid = false;
 			errorMessage += key + " in request is invalid. \n";

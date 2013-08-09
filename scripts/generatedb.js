@@ -70,7 +70,7 @@ console.log('ziplist generated');
 console.log('zip summaries complete');
 		monthlyBorough.buildMonthlyBoroughSummary(config.startDate, new Date(), callback);
 	},
-	build neighborhood list
+	//build neighborhood list
 	function(callback)
 	{
 		meta.buildNeighborhoodList(callback);

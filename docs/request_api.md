@@ -50,6 +50,24 @@ A sorted array of JSON objects from least to most recent. Each object has the fo
 * `salesSum` (Number): sum of all sales for the month
 * `totalSales` (Number): total number of sales for the month
 
+### monthly neighborhood data
+
+#### url: `/api/monthly/neighborhood/[:neighborhood]/[:startDate]/[:endDate].json`
+
+**Takes**:
+* `neighborhood`: a valid lower case, hyphen separated NYC neighborhood, (e.g. `chelsea`, `washington-heights`)). 
+* `startDate`: a formatted date
+* `endDate`: a formatted date
+
+**Returns**:
+A sorted array of JSON objects from least to most recent. Each object has the following attributes.
+* `date`(Date): first day of the month
+* `neighborhood` (String): a lower case, hyphen separated neighborhood.
+* `averageSalePrice` (Number)
+* `medianSalePrice` (Number)
+* `salesSum` (Number): sum of all sales for the month
+* `totalSales` (Number): total number of sales for the month
+
 ## reference
 
 #### borough codes:

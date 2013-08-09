@@ -58,7 +58,7 @@ exports.buildMonthlyZipSummary = function(startDate, endDate, callback)
 				{
 					buildMonthSummary(new Date(date), helpers.getNextMonth(new Date(date)), zip, callback);		
 				}, function(){callback()});
-			}, function(){console.log('done'); callback()});
+			}, function(){callback()});
 		}
 	});
 }

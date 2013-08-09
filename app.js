@@ -58,6 +58,25 @@ app.get('/api/monthly/zip/:zipCode/:startDate/:endDate.:ext', function(req, res)
 	}
 });
 
+app.get('/api/monthly/neighborhood/:neighborhood/:startDate/:endDate.:ext', function(req, res)
+{
+	validate.validateExention(req, res, req.params.ext);
+	var requestParams =
+	{
+		startDate: validate.buildDate(req.params.startDate),
+		endDate: validate.buildDate(req.params.endDate),
+		neighborhood: req.params.neighborhood
+	};
+//this is currently just checking that nothing is blank
+	var validation = validate.validateParams(requestParams);
+	if(validation === true)
+	{
+		controller.monthlyZipSummaries.get(req, res, requestParams);
+	}else{
+		res.send(400, validation);		
+	}
+});
+
 app.get('*', function (req, res)
 {
   res.send(404, 'not found');
