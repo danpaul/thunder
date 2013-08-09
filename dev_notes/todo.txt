@@ -1,5 +1,9 @@
 Todo:
 
+look at query notes
+
+monthly neighborhood scripts
+
 perform data sanitation
 	confirm header rows are consistent
 	go over each row and define acceptable values
