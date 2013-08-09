@@ -13,6 +13,7 @@ var salesRecord = require(config.salesRecordModelFile);
 var meta = require(config.metaModelFile);
 var monthlyZip = require(config.monthlyZipSummaryModelFile);
 var monthlyBorough = require(config.monthlyBoroughSummaryModelFile);
+var monthlyNeighborhood = require(config.monthlyNeighborhoodSummaryModelFile);
 
 async.series(
 [
@@ -49,7 +50,7 @@ async.series(
 					setTimeout(buildCheck, config.dbBuildTimeout);
 				}
 				takeTimeout();
-			}//);//, function(){callback();})
+			}
 			buildFromFile(file, callback);
 		},function(){console.log('base records complete'); callback();});
 	},
@@ -68,31 +69,24 @@ console.log('ziplist generated');
 	{
 console.log('zip summaries complete');
 		monthlyBorough.buildMonthlyBoroughSummary(config.startDate, new Date(), callback);
+	},
+	build neighborhood list
+	function(callback)
+	{
+		meta.buildNeighborhoodList(callback);
+	},
+	function(callback)
+	{
+console.log('neighborhood list built');
+		monthlyNeighborhood.buildMonthlyNeighborhoodSummary(config.startDate, 
+			new Date(), callback);
 	}
 ], 
 function(err)
 {
 	if(err){throw err;
 	}else{
-		console.log("db build complete!")
+console.log('neighborhood summaries complete');
+console.log("db build complete!")
 	}
 })
-
-//1
-//require(config.salesRecordModelfile).buildCollection();
-
-//2
-//require(config.metaModelfile).buildZipList();
-
-//3
-//var monthlyZip = require(config.modelsDirectory + '/monthly_zip_summaries');
-//monthlyZip.buildMonthlyZipSummary(new Date(2000, 0, 1), new Date(2014, 9, 1));
-//monthlyZip.model.findOne(printRecord);
-
-//4
-//var monthlyBorough = require(config.modelsDirectory + '/monthly_borough_summaries');
-//monthlyBorough.buildMonthlyBoroughSummary(new Date(2000, 0, 1), new Date(2014, 9, 1));
-
-//...
-//var monthlyNeighborhood = require(config.modelsDirectory).monthlyNeighborhoodSummaries;
-//monthlyNeighborhood.buildMonthlyNeighborhoodSummary();

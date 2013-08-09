@@ -28,7 +28,7 @@ var TIMEOUT_DELAY = 10000;
 //meta.model.find({key: config.key.neighborhood}, function(err, record){console.log(record)});
 
 //2
-monthlyNeighborhood.buildMonthlyNeighborhoodSummary(config.startDate, new Date(), function(){console.log('done')});
+//monthlyNeighborhood.buildMonthlyNeighborhoodSummary(config.startDate, new Date(), function(){console.log('done')});
 
-
-//monthlyNeighborhood.model.find({}, function(e,r){console.log(r);});
+//testing
+//monthlyNeighborhood.model.findOne(function(e,r){console.log(r);});
